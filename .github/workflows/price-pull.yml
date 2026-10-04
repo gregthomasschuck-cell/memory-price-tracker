@@ -7,7 +7,7 @@ on:
     - cron: "17 11 * * *"   # 11:17 UTC daily (7:17 am New York in summer)
   push:                      # rebuild the site when the code, layout or history files change
     branches: [main]
-    paths: [tracker.py, dashboard_template.html, "data/history_*.csv", data/outlook.json]
+    paths: [tracker.py, dashboard_template.html, "data/history_*.csv", data/outlook.json, data/korea_exports.csv, data/pcb_materials.csv, data/minerals.csv]
   workflow_dispatch:         # "Run workflow" button on the Actions tab
 
 permissions:

@@ -124,6 +124,12 @@ td.dim { color: var(--muted); }
 @media (prefers-reduced-motion: no-preference) { .tg, .seg button { transition: background .12s, color .12s; } }
 
 /* Memory additions */
+.divider { display: grid; gap: 4px; padding-top: 12px; border-top: 2px solid var(--ink); }
+.divider h2 { font-size: 22px; }
+.divider p { margin: 0; color: var(--ink-2); font-size: 13px; max-width: 90ch; }
+.src { font-size: 11.5px; color: var(--muted); }
+.src a { color: var(--muted); }
+td.ev { white-space: normal; min-width: 240px; }
 .kpis { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 @media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .kpi .v small { font-size: 15px; color: var(--ink-2); font-weight: 500; }
@@ -205,8 +211,51 @@ a { color: var(--accent); }
   </div>
 
 
+
+  <div class="divider">
+    <div class="eyebrow">Asia tech supply chain</div>
+    <h2>Inputs and early trade signals</h2>
+    <p>LCD panel prices update with the 7am capture. Korea early-month exports, PCB glass-fiber materials and critical minerals come from press releases and market reports, added by a scheduled lookup after each release.</p>
+  </div>
+
+  <section class="panel" aria-labelledby="h-panel">
+    <div class="panel-head">
+      <div><h2 id="h-panel">LCD panel prices</h2><p>TrendForce WitsView average price, US$ per panel, twice a month</p></div>
+      <div class="controls"><div class="seg" role="group" aria-label="Panel group">
+        <button type="button" data-pg="TV" aria-pressed="true">TV open-cell</button>
+        <button type="button" data-pg="Monitor" aria-pressed="false">Monitor</button>
+        <button type="button" data-pg="Notebook" aria-pressed="false">Notebook</button>
+      </div></div>
+    </div>
+    <div class="legend" id="lg-panel"></div>
+    <div class="chart" id="chart-panel"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-korea">
+    <div class="panel-head"><div><h2 id="h-korea">Korea early-month exports</h2><p>Customs data for the 1st–10th and 1st–20th of each month, then the full month. Semiconductors and computers (mostly SSDs) are the fastest hard read on memory and server demand.</p></div></div>
+    <div class="legend" id="lg-korea"></div>
+    <div class="chart" id="chart-korea"></div>
+    <div class="tw"><table id="t-korea"></table></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-pcb">
+    <div class="panel-head"><div><h2 id="h-pcb">PCB glass-fiber materials</h2><p>China mainstream quotes (midpoint of the reported range). E-glass yarn and cloth feed copper-clad laminate; low-CTE T-glass for AI substrates has no public price series, so its moves are in the log below.</p></div></div>
+    <div class="two">
+      <div><h3 class="eyebrow">G75 electronic yarn · RMB per tonne</h3><div class="chart" id="chart-yarn"></div></div>
+      <div><h3 class="eyebrow">7628 electronic cloth · RMB per metre</h3><div class="chart" id="chart-cloth"></div></div>
+    </div>
+    <h3 class="eyebrow">Price-hike log: CCL, copper foil, low-CTE glass cloth</h3>
+    <div class="tw"><table id="t-events"></table></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-min">
+    <div class="panel-head"><div><h2 id="h-min">Critical minerals and gases</h2><p>China domestic prices. Points are sparse and come from several publishers, so read direction and size of moves rather than exact levels.</p></div></div>
+    <div class="tw"><table id="t-min"></table></div>
+  </section>
+
   <footer class="foot">
     <p><b>Sources.</b> Spot: TrendForce/DRAMeXchange. History to Sep 2026 is the "this week" average from each weekly <i>Memory Spot Price Update</i>; a few gap weeks use the prior-week figure stated in the following article. From Oct 2026 every free table on trendforce.com/price is captured each morning by a GitHub Action. Contract: DRAMeXchange monthly averages as reported by TrendForce and Korean, Taiwanese and Chinese press; links on each row.</p>
+    <p><b>Supply chain sources.</b> Panel history: TrendForce WitsView prices as published by TrendForce/LEDinside and Chinese press, link per point; current prices from trendforce.com/price/lcd. Korea: Korea Customs Service and MOTIE releases via Yonhap, Xinhua, Korea Herald/Times/JoongAng and MOTIE. Glass fiber: 卓创资讯 quotes via Dongwu Securities' weekly building-materials report and press. Minerals: Mysteel, SMM, CTIA and press. Every value links to its source in the hover or table.</p>
     <p><b>Read with care.</b> The DDR4 8Gb spot series is DDR4 1Gx8 3200MT/s chips; the contract series is the PC DRAM DDR4 8Gb benchmark. The NAND chart compares a TLC wafer spot with an MLC packaged-chip contract, so read the trend, not the gap. TrendForce sometimes revises the prior week's spot average; this page keeps each week's first print.</p>
   </footer>
 </div>
@@ -259,20 +308,21 @@ const SNAP = /*__DATA__*/null;
     const iw = W - m.l - m.r, ih = H - m.t - m.b;
     const all = series.flatMap((s) => s.points);
     let t1 = Math.max(...all.map((p) => p[0])), t0 = Math.min(...all.map((p) => p[0]));
-    if (ui.range) t0 = Math.max(t0, t1 - ui.range * DAY);
+    const rng = opt.range ?? ui.range; if (rng) t0 = Math.max(t0, t1 - rng * DAY);
     const vis = (s) => { const i = s.points.findIndex((p) => p[0] >= t0); const pts = i < 0 ? [] : s.points.slice(i); if (s.step && i > 0) pts.unshift([t0, s.points[i - 1][1]]); return pts; };
     const sv = series.map((s) => ({ ...s, vp: vis(s) })).filter((s) => s.vp.length);
     const vals = sv.flatMap((s) => s.vp.map((p) => p[1]));
     let lo = Math.min(...vals), hi = Math.max(...vals);
-    const log = ui.scale === "log" && lo > 0;
+    const log = (opt.scale || ui.scale) === "log" && lo > 0;
+    const vf = opt.fmt || ((v) => "$" + v);
     let ticks;
     if (log) { lo /= 1.15; hi *= 1.15; ticks = niceLog(lo, hi); if (ticks.length < 3) { ticks = niceLin(lo, hi, 5).filter((v) => v > 0); } }
-    else { const pad = (hi - lo) * 0.08 || 1; lo = Math.max(0, lo - pad); hi += pad; ticks = niceLin(lo, hi, 5); lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]); }
+    else { const pad = (hi - lo) * 0.08 || 1; lo = lo >= 0 ? Math.max(0, lo - pad) : lo - pad; hi += pad; ticks = niceLin(lo, hi, 5); lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]); }
     const x = (t) => m.l + ((t - t0) / ((t1 - t0) || 1)) * iw;
     const y = (v) => log ? m.t + ih - ((Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo))) * ih : m.t + ih - ((v - lo) / (hi - lo)) * ih;
     const yf = (v) => v >= 100 ? v.toFixed(0) : v >= 10 ? v.toFixed(0) : v >= 1 ? v.toFixed(v % 1 ? 1 : 0) : v.toFixed(2);
     let s = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="${esc(opt.label)}">`;
-    ticks.forEach((t) => { if (t < lo || t > hi) return; s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${y(t) + 3.5}" text-anchor="end">$${yf(t)}</text>`; });
+    ticks.forEach((t) => { if (t < lo || t > hi) return; s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${y(t) + 3.5}" text-anchor="end">${opt.fmt ? opt.fmt(t, true) : "$" + yf(t)}</text>`; });
     s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${m.t + ih}" y2="${m.t + ih}" stroke="var(--axis)"/>`;
     // month ticks
     const span = (t1 - t0) / DAY, stepM = span > 500 ? 3 : span > 200 ? 2 : 1, n = Math.max(2, Math.floor(iw / 70));
@@ -288,7 +338,7 @@ const SNAP = /*__DATA__*/null;
       s += `<path d="${dd}" fill="none" stroke="var(${ser.color})" stroke-width="${ser.w || 2}" ${ser.dash ? 'stroke-dasharray="5 4"' : ""} stroke-linejoin="round" stroke-linecap="round"/>`;
       const lp = ser.vp[ser.vp.length - 1], lx = ser.step ? x(t1) : x(lp[0]);
       s += `<circle cx="${lx}" cy="${y(lp[1])}" r="3.5" fill="var(${ser.color})" stroke="var(--surface)" stroke-width="2"/>`;
-      labels.push({ y: y(lp[1]), x: lx, t: "$" + (lp[1] < 10 ? lp[1].toFixed(2) : lp[1].toFixed(1)), c: ser.color });
+      labels.push({ y: y(lp[1]), x: lx, t: opt.fmt ? opt.fmt(lp[1]) : "$" + (lp[1] < 10 ? lp[1].toFixed(2) : lp[1].toFixed(1)), c: ser.color });
     });
     labels.sort((a, b) => a.y - b.y); for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 13) labels[i].y = labels[i - 1].y + 13;
     labels.forEach((l) => s += `<text x="${l.x + 8}" y="${l.y + 3.5}" style="fill:var(--ink-2)">${l.t}</text>`);
@@ -300,7 +350,7 @@ const SNAP = /*__DATA__*/null;
       const t = t0 + ((px - m.l) / iw) * (t1 - t0); if (t < t0 - DAY || t > t1 + DAY) return;
       xh.setAttribute("x1", px); xh.setAttribute("x2", px); xh.setAttribute("visibility", "visible");
       const rows = sv.map((ser) => ({ ser, p: at(ser.points, t) })).filter((r) => r.p);
-      tip.innerHTML = `<div class="d">${fmtD(t)}</div>` + rows.map((r) => `<div class="r"><i style="background:var(${r.ser.color})"></i><span>${esc(r.ser.name)} <span class="dim">${r.ser.step ? fmtM(r.p[2]) : fmtD(r.p[0], false)}</span></span><b class="num">${money(r.p[1])}</b></div>`).join("");
+      tip.innerHTML = `<div class="d">${fmtD(t)}</div>` + rows.map((r) => `<div class="r"><i style="background:var(${r.ser.color})"></i><span>${esc(r.ser.name)} <span class="dim">${r.ser.step ? fmtM(r.p[2]) : fmtD(r.p[0], false)}</span></span><b class="num">${opt.fmt ? opt.fmt(r.p[1]) : money(r.p[1])}</b></div>`).join("");
       tip.hidden = false; const tx = (px / W) * r.width;
       tip.style.left = (tx + tip.offsetWidth + 16 > r.width ? tx - tip.offsetWidth - 12 : tx + 12) + "px"; tip.style.top = "8px";
     });
@@ -385,6 +435,9 @@ const SNAP = /*__DATA__*/null;
     { id: "flash_contract", name: "NAND contract (memory card/UFD)", freq: "twice monthly" },
     { id: "pcc_oem_ssd_contract", name: "PC client OEM SSD contract", freq: "quarterly" },
     { id: "ssd_street", name: "SSD street price", freq: "weekly" },
+    { id: "panel", name: "LCD large-size panel", freq: "twice monthly" },
+    { id: "smartphone", name: "LCD smartphone panel", freq: "monthly" },
+    { id: "street", name: "Monitor/TV street price", freq: "monthly" },
   ];
   function boardRows() {
     const out = [];
@@ -408,6 +461,57 @@ const SNAP = /*__DATA__*/null;
     return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join("")}" fill="none" stroke="var(--s1)" stroke-width="1.5"/><circle cx="${e[0]}" cy="${e[1]}" r="2.2" fill="var(--s1)"/></svg>`;
   }
 
+
+  // ---------- supply chain ----------
+  const PANEL_GROUPS = { TV: ['TV 65" UHD open-cell', 'TV 55" UHD open-cell', 'TV 43" FHD open-cell', 'TV 32" HD open-cell'],
+    Monitor: ['Monitor 27" FHD IPS', 'Monitor 23.8" FHD IPS'], Notebook: ['Notebook 15.6" FHD IPS', 'Notebook 14.0" HD TN'] };
+  const SLOTS = ["--s1", "--s2", "--s3", "--s4"];
+  ui.pg = ui.pg || "TV";
+  const usd1 = (v) => "$" + (v >= 100 ? v.toFixed(0) : v.toFixed(1));
+  const big = (v) => v >= 1e5 ? (v / 1000).toLocaleString("en-US", { maximumFractionDigits: 0 }) + "k" : v >= 1000 ? v.toLocaleString("en-US", { maximumFractionDigits: 0 }) : v >= 10 ? v.toFixed(1) : v.toFixed(2);
+  function renderSupply() {
+    const P = SNAP.panel || {};
+    const ps = PANEL_GROUPS[ui.pg].filter((n) => P[n]).map((n, i) => ({ name: n, color: SLOTS[i], points: P[n].map(([d, v]) => [T(d), v, d]) }));
+    document.querySelectorAll("[data-pg]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.pg === ui.pg));
+    legend($("#lg-panel"), ps);
+    if (ps.length) timeChart($("#chart-panel"), ps, { label: "LCD panel prices", scale: "lin", range: 0, h: 260, fmt: (v) => usd1(v) });
+
+    const K = SNAP.korea || [];
+    const full = K.filter((r) => r.period.endsWith("full") && r.semis_bn != null);
+    const d20 = K.filter((r) => r.period.endsWith("d1-20") && r.semis_yoy_pct != null);
+    const ks = [
+      { name: "Semis YoY, full month", color: "--s1", points: K.filter((r) => r.period.endsWith("full") && r.semis_yoy_pct != null).map((r) => [T(r.period.slice(0, 7)), r.semis_yoy_pct, r.period]) },
+      { name: "Semis YoY, first 20 days", color: "--s2", dash: true, points: d20.map((r) => [T(r.period.slice(0, 7)), r.semis_yoy_pct, r.period]) },
+      { name: "Total exports YoY, full month", color: "--s3", points: K.filter((r) => r.period.endsWith("full") && r.total_yoy_pct != null).map((r) => [T(r.period.slice(0, 7)), r.total_yoy_pct, r.period]) },
+    ].filter((s) => s.points.length > 1);
+    legend($("#lg-korea"), ks);
+    if (ks.length) timeChart($("#chart-korea"), ks, { label: "Korea export growth", scale: "lin", range: 0, h: 260, fmt: (v, axis) => (v > 0 && !axis ? "+" : "") + v.toFixed(0) + "%" });
+    const pc = (v) => v == null ? "–" : `<span class="${v > 0 ? "up" : v < 0 ? "down" : "flat"}">${v > 0 ? "+" : ""}${v.toFixed(1)}%</span>`;
+    const bn = (v) => v == null ? "–" : "$" + v.toFixed(v < 10 ? 2 : 1) + "bn";
+    const lbl = (p) => { const [m, k] = p.split(" "); return fmtM(m) + " " + ({ "d1-10": "1st–10th", "d1-20": "1st–20th", full: "full month" }[k] || k); };
+    $("#t-korea").innerHTML = `<thead><tr><th>Period</th><th class="n">Total exports</th><th class="n">YoY</th><th class="n">Semis</th><th class="n">YoY</th><th class="n">Computers</th><th class="n">YoY</th><th class="n">Daily avg YoY</th><th></th></tr></thead><tbody>` +
+      [...K].reverse().slice(0, 12).map((r) => `<tr><td>${esc(lbl(r.period))}</td><td class="n">${bn(r.total_exports_bn)}</td><td class="n">${pc(r.total_yoy_pct)}</td><td class="n"><b>${bn(r.semis_bn)}</b></td><td class="n">${pc(r.semis_yoy_pct)}</td><td class="n">${bn(r.computer_bn)}</td><td class="n">${pc(r.computer_yoy_pct)}</td><td class="n">${pc(r.daily_avg_yoy_pct)}</td><td><a class="src" href="${esc(r.source_url)}" target="_blank" rel="noopener">source</a></td></tr>`).join("") + "</tbody>";
+
+    const M = SNAP.materials || {};
+    const mser = (k, name) => M[k] ? [{ name, color: "--s1", points: M[k].points.map((x) => [T(x.date), x.value, x.date]) }] : [];
+    const y = mser("e_yarn_G75", "G75 yarn"), c = mser("e_cloth_7628", "7628 cloth");
+    if (y.length) timeChart($("#chart-yarn"), y, { label: "G75 yarn", scale: "lin", range: 0, h: 220, fmt: (v) => big(v) });
+    if (c.length) timeChart($("#chart-cloth"), c, { label: "7628 cloth", scale: "lin", range: 0, h: 220, fmt: (v) => v.toFixed(v < 10 ? 2 : 1) });
+    const EV = { ccl_hike: "CCL", cu_foil: "Copper foil", lowcte_glass: "Glass cloth", e_yarn_G75: "G75 yarn", e_cloth_7628: "7628 cloth" };
+    $("#t-events").innerHTML = `<thead><tr><th>Date</th><th>Product</th><th>Move</th><th>Detail</th><th></th></tr></thead><tbody>` +
+      (SNAP.material_events || []).slice(0, 15).map((e) => `<tr><td>${fmtD(T(e.date))}</td><td>${esc(EV[e.series] || e.series)}</td><td class="ev"><b>${esc(e.text)}</b></td><td class="ev dim">${esc(e.note)}</td><td><a class="src" href="${esc(e.url)}" target="_blank" rel="noopener">source</a></td></tr>`).join("") + "</tbody>";
+
+    const MIN = SNAP.minerals || {};
+    const MN = { gallium_4N_CN: ["Gallium 4N", "Compound semis (GaN, GaAs)"], germanium_ingot_CN: ["Germanium ingot", "IR optics, fibre, SiGe"], antimony_ingot_CN: ["Antimony ingot", "Flame retardant in PCBs/plastics"],
+      prnd_oxide_CN: ["PrNd oxide", "Magnets: HDD actuators, fans, motors"], dy_oxide_CN: ["Dysprosium oxide", "High-temp magnets"], tb_oxide_CN: ["Terbium oxide", "High-temp magnets"],
+      apt_CN: ["Tungsten APT", "WF6 for logic/memory metallisation"], wf6_CN: ["WF6 gas", "Tungsten deposition in fabs"], helium_CN_tube: ["Helium (tube)", "Fab cooling, leak test, EUV"] };
+    const back = (pts, days) => { const L = pts[pts.length - 1], t = T(L.date) - days * DAY; let p = null; for (const x of pts) if (T(x.date) <= t && T(x.date) >= t - 60 * DAY) p = x; return p ? L.value / p.value - 1 : null; };
+    $("#t-min").innerHTML = `<thead><tr><th>Material</th><th>Used for</th><th class="n">Latest</th><th>Unit</th><th>As of</th><th class="n">~3 months</th><th class="n">Since first point</th><th>History</th><th></th></tr></thead><tbody>` +
+      Object.keys(MN).filter((k) => MIN[k] && MIN[k].points.length).map((k) => { const s = MIN[k], pts = s.points, L = pts[pts.length - 1];
+        return `<tr><td><b>${esc(MN[k][0])}</b></td><td class="dim">${esc(MN[k][1])}</td><td class="n"><b>${big(L.value)}</b></td><td class="dim">${esc(s.unit)}</td><td class="dim">${fmtD(T(L.date))}</td><td class="n">${chg(back(pts, 90))}</td><td class="n">${chg(L.value / pts[0].value - 1)}<br><span class="dim" style="font-size:11px">from ${fmtD(T(pts[0].date))}</span></td><td>${spark(pts.map((x) => x.value))}</td><td><a class="src" href="${esc(L.url)}" target="_blank" rel="noopener">source</a></td></tr>`; }).join("") + "</tbody>";
+  }
+  document.querySelectorAll("[data-pg]").forEach((b) => b.addEventListener("click", () => { ui.pg = b.dataset.pg; sync(); renderSupply(); }));
+
   // ---------- controls ----------
   const sync = () => {
     document.querySelectorAll("[data-scale]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.scale === ui.scale));
@@ -416,8 +520,8 @@ const SNAP = /*__DATA__*/null;
   };
   document.querySelectorAll("[data-scale]").forEach((b) => b.addEventListener("click", () => { ui.scale = b.dataset.scale; sync(); render(); }));
   document.querySelectorAll("[data-range]").forEach((b) => b.addEventListener("click", () => { ui.range = +b.dataset.range; sync(); render(); }));
-  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 120); });
-  sync(); render();
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { render(); renderSupply(); }, 120); });
+  sync(); render(); renderSupply();
 
 })();
 </script>

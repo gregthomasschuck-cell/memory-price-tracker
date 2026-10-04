@@ -10,6 +10,19 @@ Website: https://gregthomasschuck-cell.github.io/memory-price-tracker/
 
 No API keys are needed.
 
+## Supply-chain section
+
+Below the memory charts the page tracks four slower Asia tech supply-chain signals:
+
+| Series | File | How it updates |
+|---|---|---|
+| LCD panel prices (TV, monitor, notebook) | `data/history_panel.csv` + captured `panel` table | TrendForce's free panel table, captured by the daily Action |
+| Korea 1st–10th / 1st–20th / full-month exports (total, semis, computers) | `data/korea_exports.csv` | Added by a Claude scheduled task after each customs release (~1st, 11th, 21st) |
+| G75 e-glass yarn, 7628 e-glass cloth, CCL / copper-foil / low-CTE glass price moves | `data/pcb_materials.csv` | Added weekly by the Claude scheduled task |
+| Gallium, germanium, antimony, rare earths (PrNd, Dy, Tb), tungsten APT, WF6, helium | `data/minerals.csv` | Added weekly by the Claude scheduled task |
+
+These three CSVs can also be edited by hand on GitHub; the site rebuilds on every change.
+
 ## Sources
 
 | Data | Where it comes from |

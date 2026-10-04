@@ -1,0 +1,112 @@
+date,series,value,unit,note,source_url
+2025-01-02,antimony_ingot_CN,143000,CNY/t,99.65% ingot avg (CNIA antimony branch ref),https://finance.sina.com.cn/roll/2025-03-05/doc-inenrkhi1661278.shtml
+2025-03-03,antimony_ingot_CN,165000,CNY/t,"99.65% avg quote, CNIA antimony branch",https://finance.sina.com.cn/roll/2025-03-05/doc-inenrkhi1661278.shtml
+2025-04-07,antimony_ingot_CN,226000,CNY/t,1# Changjiang avg,https://caifuhao.eastmoney.com/news/20250407150843342796630
+2025-11-18,antimony_ingot_CN,170000,CNY/t,1# Changjiang spot,https://finance.sina.com.cn/money/future/indu/2025-11-18/doc-infxuwrh4167135.shtml
+2025-12-04,antimony_ingot_CN,175500,CNY/t,1# >=99.85%,https://caifuhao.eastmoney.com/news/20251204135035634038180
+2026-02-02,antimony_ingot_CN,161000,CNY/t,domestic 1# ingot,https://caifuhao.eastmoney.com/news/20260522181654223779150
+2026-02-09,antimony_ingot_CN,164500,CNY/t,domestic 1# ingot,https://caifuhao.eastmoney.com/news/20260522181654223779150
+2026-04-30,antimony_ingot_CN,166000,CNY/t,domestic 1# ingot,https://caifuhao.eastmoney.com/news/20260522181654223779150
+2026-05-18,antimony_ingot_CN,156750,CNY/t,domestic 1# ingot,https://caifuhao.eastmoney.com/news/20260522181654223779150
+2026-09-30,antimony_ingot_CN,101000-105000,CNY/t,Mysteel 1# Sb99.85%,https://m.mysteel.com/hot/1540203.html
+2025-01-01,apt_CN,211200,CNY/t,Q1 2025 average (CTIA),https://finance.sina.com.cn/stock/relnews/cn/2025-03-31/doc-inerpiyu4057369.shtml
+2025-03-01,apt_CN,208500,CNY/t,March 2025 monthly average,https://finance.sina.com.cn/stock/relnews/cn/2025-03-31/doc-inerpiyu4057369.shtml
+2025-06-06,apt_CN,252000,CNY/t,spot,https://static.weeklyonstock.com/25/0617/zbf091642.html
+2025-12-22,apt_CN,670000,CNY/t,+217.5% YTD,https://stcn.com/article/detail/3550812.html
+2026-02-09,apt_CN,1000000,CNY/t,+49.3% YTD,https://www.cs.com.cn/ssgs/gsxw/202602/t20260210_6537470.html
+2026-03-04,apt_CN,1300000,CNY/t,+94.0% YTD,https://www.sina.cn/news/detail/5272699817692614.html
+2026-03-11,apt_CN,1500000,CNY/t,+123.9% YTD,https://news.qq.com/rain/a/20260311A0468900
+2026-06-09,apt_CN,800000,CNY/t,domestic APT,https://www.ctia.com.cn/news/130838.html
+2026-07-17,apt_CN,610000,CNY/t,domestic APT,https://www.ctia.com.cn/news/131910.html
+2026-08-26,apt_CN,600000,CNY/t,Guangdong major long-order,https://m.mysteel.com/hot/1591273.html
+2026-09-20,apt_CN,580000,CNY/t,Zhangyuan late-Sep long-order,https://m.mysteel.com/hot/1591273.html
+2025-02-01,dy_oxide_CN,1718.95,CNY/kg,Feb 2025 monthly avg (CTIA),https://finance.sina.com.cn/roll/2025-02-28/doc-inemzcmm7089575.shtml
+2025-03-01,dy_oxide_CN,1701.9,CNY/kg,Mar 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-04-01/doc-inerrtfs3030863.shtml
+2025-04-01,dy_oxide_CN,1659.55,CNY/kg,Apr 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/hk/2025-04-30/doc-ineuxfic4408666.shtml
+2025-05-01,dy_oxide_CN,1639.47,CNY/kg,May 2025 monthly avg,https://www.ctia.com.cn/news/118947.html
+2025-06-01,dy_oxide_CN,1636.75,CNY/kg,Jun 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-07-01/doc-infcxsmn9051192.shtml
+2025-07-01,dy_oxide_CN,1664.78,CNY/kg,Jul 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-07-31/doc-infiitzv2905311.shtml
+2025-08-01,dy_oxide_CN,1633.81,CNY/kg,Aug 2025 monthly avg,https://www.ctia.com.cn/news/122032.html
+2025-09-01,dy_oxide_CN,1627.39,CNY/kg,Sep 2025 monthly avg,https://finance.sina.com.cn/roll/2025-09-30/doc-infsfvxp7787699.shtml
+2025-11-01,dy_oxide_CN,1542.5,CNY/kg,Nov 2025 monthly avg,https://www.ctia.com.cn/news/124896.html
+2025-12-01,dy_oxide_CN,1390.43,CNY/kg,Dec 2025 monthly avg,https://www.ctia.com.cn/news/126201.html
+2026-01-30,dy_oxide_CN,1405,CNY/kg,SMM,https://news.smm.cn/news/103784715
+2026-02-27,dy_oxide_CN,1620,CNY/kg,SMM,https://news.smm.cn/news/103784715
+2026-03-01,dy_oxide_CN,1462.73,CNY/kg,Mar 2026 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2026-04-01/doc-inhsyfvf8651219.shtml
+2026-04-01,dy_oxide_CN,1379.05,CNY/kg,Apr 2026 monthly avg,https://finance.sina.com.cn/wm/2026-04-30/doc-inhwfyek6281691.shtml
+2026-05-01,dy_oxide_CN,1321.05,CNY/kg,May 2026 monthly avg,https://finance.sina.com.cn/wm/2026-06-02/doc-inhzysxu3333951.shtml
+2026-06-24,dy_oxide_CN,1413.1,CNY/kg,Baotou RE exchange avg,https://www.163.com/dy/article/L073RVFD0519QIKK.html
+2026-07-16,dy_oxide_CN,1430,CNY/kg,CTIA,https://www.ctia.com.cn/news/131870.html
+2026-08-12,dy_oxide_CN,1400,CNY/kg,CTIA,https://www.ctia.com.cn/news/132674.html
+2026-09-30,dy_oxide_CN,1420-1450,CNY/kg,Mysteel,https://m.mysteel.com/hot/1232572.html
+2025-01-17,gallium_4N_CN,1780-1820,CNY/kg,Fastmarkets 99.99% in-whs China (via MMTA),https://mmta.co.uk/gallium-production-is-coming-back-to-europe-after-chinas-export-controls/
+2025-06-30,gallium_4N_CN,1680,CNY/kg,Sanmenxia 4N auction result,https://news.metal.com/newscontent/103402223-sanmenxia-aluminums-4n-gallium-auction-concluded
+2025-07-14,gallium_4N_CN,1650,CNY/kg,Sanmenxia 4N tender result,https://news.metal.com/newscontent/103424737/The-tender-for-metal-gallium-by-Sanmenxia-Aluminum-Industry-was-successfully-concluded-%5Breported-by-SMM-Gallium%5D
+2026-03-03,gallium_4N_CN,1805,CNY/kg,"China ex-works 4N, aggregator site",https://galliumprice.com/market-data/
+2026-09-19,gallium_4N_CN,1740-1780,CNY/kg,Mysteel Ga>=99.99%,https://list1.m.mysteel.com/zhishi/gaochunjiajiage.html
+2026-09-30,gallium_4N_CN,1750,CNY/kg,Mysteel Ga>=99.99% market price,https://m.mysteel.com/hot/1540242.html
+2025-01-02,germanium_ingot_CN,17300-17600,CNY/kg,,https://finance.sina.com.cn/stock/s/2025-03-28/doc-inerfitm1195979.shtml
+2025-03-07,germanium_ingot_CN,15450,CNY/kg,SMM avg,https://news.metal.com/newscontent/103214400-germanium-prices-continue-to-decline-smm-germanium-market-analysis
+2025-03-28,germanium_ingot_CN,14800-15100,CNY/kg,,https://finance.sina.com.cn/stock/s/2025-03-28/doc-inerfitm1195979.shtml
+2025-04-11,germanium_ingot_CN,15400,CNY/kg,SMM avg,https://hq.smm.cn/in-ge-ga/content/103274348
+2025-06-20,germanium_ingot_CN,14900,CNY/kg,SMM avg,https://news.metal.com/newscontent/103387456-germanium-prices-remain-stable-with-intense-market-competition-smm-germanium-market-analysis
+2025-07-04,germanium_ingot_CN,14750,CNY/kg,SMM avg,https://news.smm.cn/news/103410338
+2025-12-31,germanium_ingot_CN,13600,CNY/kg,,https://finance.sina.com.cn/jjxw/2026-06-02/doc-inhzxvue3601004.shtml
+2026-01-14,germanium_ingot_CN,13500,CNY/kg,SMM avg,https://news.smm.cn/news/103865047
+2026-04-20,germanium_ingot_CN,17250,CNY/kg,SMM avg,https://news.smm.cn/news/103865047
+2026-06-01,germanium_ingot_CN,25000,CNY/kg,+83.82% YTD,https://finance.sina.com.cn/jjxw/2026-06-02/doc-inhzxvue3601004.shtml
+2026-06-22,germanium_ingot_CN,21600-25100,CNY/kg,mainstream spot,https://caifuhao.eastmoney.com/news/20260622232658510376450
+2026-09-23,germanium_ingot_CN,26000-28000,CNY/kg,Mysteel 99.999%,https://m.mysteel.com/hot/1540481.html
+2026-09-30,germanium_ingot_CN,27000,CNY/kg,Mysteel mid,https://m.mysteel.com/hot/1540293.html
+2026-02-27,helium_CN_tube,83.6,CNY/m3,imported tube HP avg,https://m.mysteel.com/hot/1629300.html
+2026-03-24,helium_CN_tube,80-85,CNY/m3,Inner Mongolia tube HP,https://m.mysteel.com/hot/1630057.html
+2026-04-10,helium_CN_tube,140-146,CNY/m3,Inner Mongolia,https://m.mysteel.com/hot/1630057.html
+2026-07-09,helium_CN_tube,160.14,CNY/m3,tube HP avg,https://www.sohu.com/a/1051328130_122673060
+2026-07-17,helium_CN_tube,129-130,CNY/m3,Inner Mongolia ex-works,https://www.sohu.com/a/1051328130_122673060
+2026-08-28,helium_CN_tube,128.6,CNY/m3,imported tube HP avg,https://m.mysteel.com/hot/1629300.html
+2026-09-10,helium_CN_tube,124.2,CNY/m3,imported tube HP avg,https://m.mysteel.com/hot/1629300.html
+2026-09-17,helium_CN_tube,110-120,CNY/m3,imported,https://m.mysteel.com/hot/1629300.html
+2025-01-27,prnd_oxide_CN,415000,CNY/t,SMM,https://news.smm.cn/news/103168723
+2025-02-01,prnd_oxide_CN,436263,CNY/t,Feb 2025 monthly avg (CTIA),https://finance.sina.com.cn/roll/2025-02-28/doc-inemzcmm7089575.shtml
+2025-03-01,prnd_oxide_CN,444000,CNY/t,Mar 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-04-01/doc-inerrtfs3030863.shtml
+2025-04-01,prnd_oxide_CN,425909,CNY/t,Apr 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/hk/2025-04-30/doc-ineuxfic4408666.shtml
+2025-05-01,prnd_oxide_CN,428684,CNY/t,May 2025 monthly avg,https://www.ctia.com.cn/news/118947.html
+2025-06-01,prnd_oxide_CN,444350,CNY/t,Jun 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-07-01/doc-infcxsmn9051192.shtml
+2025-07-01,prnd_oxide_CN,476739,CNY/t,Jul 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-07-31/doc-infiitzv2905311.shtml
+2025-07-31,prnd_oxide_CN,528500,CNY/t,SMM,https://news.smm.cn/news/103459987
+2025-08-01,prnd_oxide_CN,570095,CNY/t,Aug 2025 monthly avg,https://www.ctia.com.cn/news/122032.html
+2025-08-29,prnd_oxide_CN,597500,CNY/t,SMM,https://news.smm.cn/news/103570607
+2025-09-01,prnd_oxide_CN,577652,CNY/t,Sep 2025 monthly avg,https://finance.sina.com.cn/roll/2025-09-30/doc-infsfvxp7787699.shtml
+2025-10-15,prnd_oxide_CN,522500,CNY/t,SMM,https://news.smm.cn/news/103570607
+2025-11-01,prnd_oxide_CN,550600,CNY/t,Nov 2025 monthly avg,https://www.ctia.com.cn/news/124896.html
+2025-12-01,prnd_oxide_CN,587957,CNY/t,Dec 2025 monthly avg,https://www.ctia.com.cn/news/126201.html
+2026-01-30,prnd_oxide_CN,748500,CNY/t,SMM,https://news.smm.cn/news/103784715
+2026-02-27,prnd_oxide_CN,890000,CNY/t,SMM,https://news.smm.cn/news/103784715
+2026-03-01,prnd_oxide_CN,782909,CNY/t,Mar 2026 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2026-04-01/doc-inhsyfvf8651219.shtml
+2026-04-01,prnd_oxide_CN,772476,CNY/t,Apr 2026 monthly avg,https://finance.sina.com.cn/wm/2026-04-30/doc-inhwfyek6281691.shtml
+2026-05-01,prnd_oxide_CN,731263,CNY/t,May 2026 monthly avg,https://finance.sina.com.cn/wm/2026-06-02/doc-inhzysxu3333951.shtml
+2026-06-24,prnd_oxide_CN,752100,CNY/t,Baotou RE exchange avg,https://www.163.com/dy/article/L073RVFD0519QIKK.html
+2026-07-01,prnd_oxide_CN,744100,CNY/t,Baotou RE exchange avg,https://www.163.com/dy/article/L0P8FBB40519QIKK.html
+2026-08-12,prnd_oxide_CN,728000,CNY/t,CTIA,https://www.ctia.com.cn/news/132674.html
+2026-09-30,prnd_oxide_CN,740000-741000,CNY/t,Mysteel,https://m.mysteel.com/hot/1232572.html
+2025-02-01,tb_oxide_CN,6136,CNY/kg,Feb 2025 monthly avg,https://finance.sina.com.cn/roll/2025-02-28/doc-inemzcmm7089575.shtml
+2025-03-01,tb_oxide_CN,6570,CNY/kg,Mar 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-04-01/doc-inerrtfs3030863.shtml
+2025-04-01,tb_oxide_CN,6895,CNY/kg,Apr 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/hk/2025-04-30/doc-ineuxfic4408666.shtml
+2025-05-01,tb_oxide_CN,7095,CNY/kg,May 2025 monthly avg,https://www.ctia.com.cn/news/118947.html
+2025-06-01,tb_oxide_CN,7181,CNY/kg,Jun 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-07-01/doc-infcxsmn9051192.shtml
+2025-07-01,tb_oxide_CN,7151,CNY/kg,Jul 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-07-31/doc-infiitzv2905311.shtml
+2025-08-01,tb_oxide_CN,7073,CNY/kg,Aug 2025 monthly avg,https://www.ctia.com.cn/news/122032.html
+2025-09-01,tb_oxide_CN,7232,CNY/kg,Sep 2025 monthly avg,https://finance.sina.com.cn/roll/2025-09-30/doc-infsfvxp7787699.shtml
+2025-11-01,tb_oxide_CN,6611,CNY/kg,Nov 2025 monthly avg,https://www.ctia.com.cn/news/124896.html
+2025-12-01,tb_oxide_CN,6250,CNY/kg,Dec 2025 monthly avg,https://www.ctia.com.cn/news/126201.html
+2026-01-30,tb_oxide_CN,6125,CNY/kg,SMM,https://news.smm.cn/news/103784715
+2026-02-27,tb_oxide_CN,6525,CNY/kg,SMM,https://news.smm.cn/news/103784715
+2026-03-01,tb_oxide_CN,6241,CNY/kg,Mar 2026 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2026-04-01/doc-inhsyfvf8651219.shtml
+2026-04-01,tb_oxide_CN,6110,CNY/kg,Apr 2026 monthly avg,https://finance.sina.com.cn/wm/2026-04-30/doc-inhwfyek6281691.shtml
+2026-05-01,tb_oxide_CN,6101,CNY/kg,May 2026 monthly avg,https://finance.sina.com.cn/wm/2026-06-02/doc-inhzysxu3333951.shtml
+2026-06-24,tb_oxide_CN,6455,CNY/kg,Baotou RE exchange avg,https://www.163.com/dy/article/L073RVFD0519QIKK.html
+2026-08-12,tb_oxide_CN,6630,CNY/kg,CTIA,https://www.ctia.com.cn/news/132674.html
+2026-09-30,tb_oxide_CN,6530-6550,CNY/kg,Mysteel,https://m.mysteel.com/hot/1232572.html
+2025-06-01,wf6_CN,523,CNY/kg,"5N WF6, June 2025 (month only)",https://finance.sina.com.cn/roll/2026-06-11/doc-iniaztwp3984115.shtml
+2026-04-01,wf6_CN,1714.81,CNY/kg,Apr 2026 monthly avg (Oilchem/Mysteel),https://m.mysteel.com/oilchem/a/26042816/9E9DB9F5FBF1523D_abc.html
+2026-06-09,wf6_CN,1740,CNY/kg,5N,https://finance.sina.com.cn/roll/2026-06-11/doc-iniaztwp3984115.shtml

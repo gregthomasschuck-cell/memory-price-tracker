@@ -27,7 +27,17 @@ OUTLOOK = DATA / "outlook.json"          # TrendForce quarterly contract guide (
 TEMPLATE = HERE / "dashboard_template.html"
 
 PAGES = ["https://www.trendforce.com/price/dram/dram_spot",
-         "https://www.trendforce.com/price/flash/flash_spot"]
+         "https://www.trendforce.com/price/flash/flash_spot",
+         "https://www.trendforce.com/price/lcd/panel"]
+PANEL_HIST = DATA / "history_panel.csv"   # LCD panel prices before daily capture began
+KOREA = DATA / "korea_exports.csv"        # Korea 10-day / 20-day / monthly exports (Claude task)
+MATERIALS = DATA / "pcb_materials.csv"    # glass-fiber yarn/cloth prices, CCL / Cu foil / T-glass events (Claude task)
+MINERALS = DATA / "minerals.csv"          # gallium, germanium, rare earths, helium, ... (Claude task)
+
+# TrendForce panel-table names -> the names used in the panel history
+PANEL_NAMES = {'LCD TV 55"W UHD Open-Cell': 'TV 55" UHD open-cell',
+               'Monitor 27"W FHD/IPS LED': 'Monitor 27" FHD IPS',
+               'Notebook 14.0"W HD Flat-LED': 'Notebook 14.0" HD TN'}
 FIELDS = ["captured", "table", "title", "updated", "item", "high", "low", "avg", "chg"]
 
 # Contract tables that extend the monthly contract history
@@ -55,10 +65,24 @@ def parse_page(html: str) -> list[dict]:
         if not heads:               # member-only tables have no header row
             continue
         upd = sec.select_one(".price-last-update")
-        m = re.search(r"(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})", upd.get_text() if upd else "")
+        m = re.search(r"(\d{4}-\d{2}-\d{2})(?:\s+(\d{2}:\d{2}))?", upd.get_text() if upd else "")
         if not m:
             continue
-        updated = f"{m.group(1)}T{m.group(2)}+08:00"
+        updated = f"{m.group(1)}T{m.group(2) or '00:00'}+08:00"
+        sid = sec.get("id")
+        if sid in ("panel", "smartphone", "street"):   # LCD tables: fixed column layouts
+            for tr in table.select("tbody tr"):
+                c = [re.sub(r"\s+", " ", td.get_text(" ", strip=True)) for td in tr.find_all("td")]
+                if sid == "panel" and len(c) >= 11:
+                    rows.append({"table": sid, "title": "Large-size panel price", "updated": updated, "item": c[2],
+                                 "high": num(c[4]), "low": num(c[3]), "avg": num(c[5]), "chg": num(c[10])})
+                elif sid == "smartphone" and len(c) >= 8:
+                    rows.append({"table": sid, "title": "LCD smartphone panel price", "updated": updated,
+                                 "item": " ".join(c[0:3]), "high": num(c[4]), "low": num(c[3]), "avg": num(c[5]), "chg": num(c[7])})
+                elif sid == "street" and len(c) >= 8:
+                    rows.append({"table": sid, "title": "Monitor/TV street price", "updated": updated,
+                                 "item": f"{c[0]} {c[1]}", "high": num(c[3]), "low": num(c[2]), "avg": num(c[4]), "chg": num(c[7])})
+            continue
         title_el = sec.select_one(".price-title")
         title = title_el.get_text(" ", strip=True) if title_el else sec.get("id", "")
 
@@ -163,12 +187,66 @@ def compute(prices: list[dict]) -> dict:
                                                 "url": "https://www.trendforce.com/price/" + page})
                 c[key] = row["avg"]
     outlook = json.loads(OUTLOOK.read_text(encoding="utf-8")) if OUTLOOK.exists() else {"rows": []}
+
+    def rows_of(path):
+        if not path.exists():
+            return []
+        with open(path, newline="", encoding="utf-8") as f:
+            return list(csv.DictReader(f))
+
+    # LCD panels: history + captured panel tables, one series per item
+    panel = {}
+    for r in rows_of(PANEL_HIST):
+        panel.setdefault(r["item"], {})[r["date"]] = float(r["price_usd"])
+    for s in spot:
+        if s["table"] == "panel":
+            for x in s["rows"]:
+                if x["avg"] is not None:
+                    panel.setdefault(PANEL_NAMES.get(x["item"], x["item"]), {})[s["date"]] = x["avg"]
+    panel = {k: sorted(v.items()) for k, v in panel.items()}
+
+    # Price series: a range "a-b" plots at its midpoint; "~x" at x; hikes stay as events
+    def level(v):
+        v = (v or "").replace(",", "").replace("~", "").strip()
+        m = re.fullmatch(r"(\d+(?:\.\d+)?)(?:\s*-\s*(\d+(?:\.\d+)?))?", v)
+        if not m:
+            return None
+        return (float(m.group(1)) + float(m.group(2))) / 2 if m.group(2) else float(m.group(1))
+
+    def series_and_events(rows):
+        series, events = {}, []
+        for r in rows:
+            lv = level(r["value"]) if r["unit"] != "event" and "hike" not in r["unit"] and "%" not in r["unit"] else None
+            if lv is not None:
+                s = series.setdefault(r["series"], {"unit": r["unit"], "points": []})
+                s["points"].append({"date": r["date"], "value": lv, "raw": r["value"], "note": r["note"], "url": r["source_url"]})
+            else:
+                text = r["value"] if r["unit"] in ("event", "") else f'{r["value"]} {r["unit"]}'
+                events.append({"date": r["date"], "series": r["series"], "text": text, "note": r["note"], "url": r["source_url"]})
+        for s in series.values():
+            s["points"].sort(key=lambda p: p["date"])
+        events.sort(key=lambda e: e["date"], reverse=True)
+        return series, events
+
+    materials, material_events = series_and_events(rows_of(MATERIALS))
+    minerals, _ = series_and_events(rows_of(MINERALS))
+    korea = []
+    for r in rows_of(KOREA):
+        korea.append({k: (r[k] if k in ("period", "release_date", "source_url") else nz(r.get(k)))
+                      for k in ("period", "release_date", "total_exports_bn", "total_yoy_pct", "semis_bn",
+                                "semis_yoy_pct", "computer_bn", "computer_yoy_pct", "daily_avg_yoy_pct", "source_url")})
+    korea.sort(key=lambda r: (r["period"][:7], {"d1-10": 0, "d1-20": 1, "full": 2}.get(r["period"][8:], 3)))
     return {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         "weekly": weekly,
         "contract": [contract[m] for m in sorted(contract)],
         "spot": spot,
         "outlook": outlook,
+        "panel": panel,
+        "korea": korea,
+        "materials": materials,
+        "material_events": material_events,
+        "minerals": minerals,
     }
 
 

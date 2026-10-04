@@ -1,0 +1,81 @@
+date,series,value,unit,note,source_url
+2025-02-20,e_yarn_G75,~8400,RMB/t,"as of 2/20",https://finance.sina.com.cn/stock/hkstock/ggscyd/2025-02-26/doc-inemuzvc0320085.shtml
+2025-02-24,e_yarn_G75,+800,RMB/t hike,"G-series hike by >=9 makers",https://finance.sina.com.cn/stock/hkstock/ggscyd/2025-02-26/doc-inemuzvc0320085.shtml
+2025-03-27,e_yarn_G75,8800-9200,RMB/t,"",https://caifuhao.eastmoney.com/news/20250415203745411835700
+2025-05-06,e_yarn_G75,8800-9200,RMB/t,"Dongwu weekly (late-Apr week)",https://stock.stockstar.com/JC2025050600033345.shtml
+2025-06-09,e_yarn_G75,8800-9200,RMB/t,"Dongwu weekly, wk 6/3-6/6",https://www.sdyanbao.com/detail/893362
+2025-06-22,e_yarn_G75,8800-9200,RMB/t,"Dongwu weekly, wk 6/16-6/20",https://www.sdyanbao.com/detail/896019
+2025-09-02,e_yarn_G75,8300-9200,RMB/t,"Dongwu weekly (late-Aug week)",https://www.sdyanbao.com/detail/916619
+2025-09-22,e_yarn_G75,8300-9200,RMB/t,"Dongwu weekly, wk 9/15-9/19",https://stock.stockstar.com/JC2025092200034011.shtml
+2025-10-20,e_yarn_G75,8800-9300,RMB/t,"Dongwu weekly, wk 10/11-10/17",https://stock.stockstar.com/JC2025102000028329.shtml
+2025-12-08,e_yarn_G75,9200-9500,RMB/t,"Dongwu weekly, wk 11/29-12/5",https://stock.stockstar.com/JC2025120800022902.shtml
+2025-12-15,e_yarn_G75,9200-9500,RMB/t,"Dongwu weekly, wk 12/6-12/12",https://stock.stockstar.com/JC2025121500010583.shtml
+2026-01-05,e_yarn_G75,9200-9500,RMB/t,"Dongwu weekly, wk 12/27-1/2",https://stock.stockstar.com/JC2026010500027274.shtml
+2026-01-19,e_yarn_G75,9300-9700,RMB/t,"Dongwu weekly",https://pdf.dfcfw.com/pdf/H3_AP202601191818100166_1.pdf
+2026-01-26,e_yarn_G75,9300-9700,RMB/t,"Dongwu weekly, wk 1/16-1/23",https://stock.stockstar.com/JC2026012600013820.shtml
+2026-02-24,e_yarn_G75,10300-10700,RMB/t,"Dongwu weekly (pre-CNY week)",https://stock.stockstar.com/JC2026022400021470.shtml
+2026-03-02,e_yarn_G75,10300-10700,RMB/t,"Dongwu weekly, wk 2/21-2/27",https://pdf.dfcfw.com/pdf/H3_AP202603021820182494_1.pdf
+2026-03-09,e_yarn_G75,11000-11700,RMB/t,"Dongwu weekly",https://stock.stockstar.com/JC2026030900030507.shtml
+2026-03-24,e_yarn_G75,11000-11700,RMB/t,"Dongwu weekly, wk 3/14-3/20",https://stock.stockstar.com/JC2026032400000018.shtml
+2026-04-14,e_yarn_G75,11800-12500,RMB/t,"Dongwu weekly, wk 4/4-4/10",https://stock.stockstar.com/JC2026041400000002.shtml
+2026-04-19,e_yarn_G75,11800-12500,RMB/t,"Dongwu weekly, wk ending 4/16",https://stock.stockstar.com/JC2026041900011273.shtml
+2026-06-08,e_yarn_G75,14525,RMB/t,"stated 'June 2026'",https://pdf.dfcfw.com/pdf/H3_AP202606081823362161_1.pdf
+2026-06-16,e_yarn_G75,14000-14500,RMB/t,"broker weekly, wk 6/6-6/12",https://field.10jqka.com.cn/20260616/c677501282.shtml
+2026-07-28,e_yarn_G75,16500-17000,RMB/t,"stated early-July level",https://www.yicai.com/brief/103294293.html
+2026-08-14,e_yarn_G75,19500-20000,RMB/t,"stated early-Aug level",https://m.sohu.com/a/1062847042_122014422
+2026-09-07,e_yarn_G75,+15,% m/m,"Sept hike (E225 +18%, D450 +24%)",https://news.qq.com/rain/a/20260911A03LHC00
+2026-09-10,e_yarn_G75,22800-24000,RMB/t,"卓创 weekly avg 23137.5, +3.35% w/w, wk 9/4-9/10",https://news.qq.com/rain/a/20260915A03TQY00
+2025-02-20,e_cloth_7628,3.85,RMB/m,"as of 2/20",https://finance.sina.com.cn/stock/hkstock/ggscyd/2025-02-26/doc-inemuzvc0320085.shtml
+2025-02-24,e_cloth_7628,+0.3,RMB/m hike,"hike announced by >=9 makers incl. Jushi",https://finance.sina.com.cn/stock/hkstock/ggscyd/2025-02-26/doc-inemuzvc0320085.shtml
+2025-03-27,e_cloth_7628,3.8-4.4,RMB/m,"",https://caifuhao.eastmoney.com/news/20250415203745411835700
+2025-05-06,e_cloth_7628,3.8-4.4,RMB/m,"Dongwu weekly (late-Apr week)",https://stock.stockstar.com/JC2025050600033345.shtml
+2025-06-09,e_cloth_7628,3.8-4.4,RMB/m,"Dongwu weekly, wk 6/3-6/6",https://www.sdyanbao.com/detail/893362
+2025-06-22,e_cloth_7628,3.8-4.4,RMB/m,"Dongwu weekly, wk 6/16-6/20",https://www.sdyanbao.com/detail/896019
+2025-09-02,e_cloth_7628,3.6-4.2,RMB/m,"Dongwu weekly (late-Aug week)",https://www.sdyanbao.com/detail/916619
+2025-09-22,e_cloth_7628,3.6-4.2,RMB/m,"Dongwu weekly, wk 9/15-9/19",https://stock.stockstar.com/JC2025092200034011.shtml
+2025-10-20,e_cloth_7628,3.9-4.4,RMB/m,"Dongwu weekly, wk 10/11-10/17",https://stock.stockstar.com/JC2025102000028329.shtml
+2025-12-08,e_cloth_7628,4.2-4.65,RMB/m,"Dongwu weekly, wk 11/29-12/5",https://stock.stockstar.com/JC2025120800022902.shtml
+2025-12-15,e_cloth_7628,4.2-4.65,RMB/m,"Dongwu weekly, wk 12/6-12/12",https://stock.stockstar.com/JC2025121500010583.shtml
+2026-01-05,e_cloth_7628,4.2-4.65,RMB/m,"Dongwu weekly, wk 12/27-1/2",https://stock.stockstar.com/JC2026010500027274.shtml
+2026-01-19,e_cloth_7628,4.4-4.85,RMB/m,"Dongwu weekly",https://pdf.dfcfw.com/pdf/H3_AP202601191818100166_1.pdf
+2026-01-26,e_cloth_7628,4.4-4.85,RMB/m,"Dongwu weekly, wk 1/16-1/23",https://stock.stockstar.com/JC2026012600013820.shtml
+2026-02-09,e_cloth_7628,5.11,RMB/m,"average (CITIC Securities)",https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-02-25/doc-inhnyupu5267586.shtml
+2026-02-24,e_cloth_7628,4.9-5.45,RMB/m,"Dongwu weekly (pre-CNY week)",https://stock.stockstar.com/JC2026022400021470.shtml
+2026-03-02,e_cloth_7628,4.9-5.45,RMB/m,"Dongwu weekly, wk 2/21-2/27",https://pdf.dfcfw.com/pdf/H3_AP202603021820182494_1.pdf
+2026-03-09,e_cloth_7628,5.4-6.0,RMB/m,"Dongwu weekly",https://stock.stockstar.com/JC2026030900030507.shtml
+2026-03-24,e_cloth_7628,5.4-6.0,RMB/m,"Dongwu weekly, wk 3/14-3/20",https://stock.stockstar.com/JC2026032400000018.shtml
+2026-04-14,e_cloth_7628,5.9-6.5,RMB/m,"Dongwu weekly, wk 4/4-4/10",https://stock.stockstar.com/JC2026041400000002.shtml
+2026-04-19,e_cloth_7628,6.0-6.3,RMB/m,"Dongwu weekly, wk ending 4/16",https://stock.stockstar.com/JC2026041900011273.shtml
+2026-05-12,e_cloth_7628,6.5-6.8,RMB/m,"May hike +0.5 (China Post Securities weekly)",https://finance.sina.com.cn/stock/stockzmt/2026-05-12/doc-inhxqzkm1303301.shtml
+2026-06-16,e_cloth_7628,7.3-7.5,RMB/m,"broker weekly, wk 6/6-6/12",https://field.10jqka.com.cn/20260616/c677501282.shtml
+2026-07-28,e_cloth_7628,8.5-8.7,RMB/m,"stated July level",https://www.yicai.com/brief/103294293.html
+2026-08-14,e_cloth_7628,10-10.2,RMB/m,"stated early-Aug quote",https://m.sohu.com/a/1062847042_122014422
+2026-09-10,e_cloth_7628,11.5-12.1,RMB/m,"卓创 via 证券日报, wk 9/4-9/10",https://news.qq.com/rain/a/20260915A03TQY00
+2026-09-30,e_cloth_7628,11-12,RMB/m,"mill; distributor quotes ~15",https://m.21jingji.com/article/20260930/herald/ec6e0a3c581fe8c8e411b17def9d7a5c.html
+2025-02-15,ccl_hike,Kingboard +5 RMB/sheet,event,"FR-4 and CEM products",https://finance.sina.com.cn/stock/relnews/hk/2026-05-27/doc-inhziqxq0801894.shtml
+2025-08-15,ccl_hike,Kingboard +10 RMB/sheet,event,"CCL across the board",https://finance.sina.com.cn/stock/relnews/hk/2026-05-27/doc-inhziqxq0801894.shtml
+2025-11-20,ccl_hike,Nan Ya +8%,event,"CCL",https://udn.com/news/story/7251/9166274
+2025-12-01,ccl_hike,"Kingboard CEM +5%, FR-4/PP +10%",event,"",https://finance.sina.com.cn/stock/relnews/hk/2026-05-27/doc-inhziqxq0801894.shtml
+2025-12-26,ccl_hike,Kingboard +10%,event,"all materials; 3rd H2-2025 hike",https://www.worldjournal.com/wj/story/121347/9236462
+2026-03-10,ccl_hike,Kingboard +10%,event,"laminate, PP and copper-foil processing fee",https://www.eet-china.com/news/202607075670.html
+2026-03-16,ccl_hike,Nan Ya +15%,event,"CCL and PP; Cu foil fees up, glass cloth shortage",https://money.udn.com/money/story/5612/9395667
+2026-04-03,ccl_hike,Kingboard +10%,event,"board and PP (2nd 2026 round)",https://www.eet-china.com/news/202607075670.html
+2026-04-28,ccl_hike,Kingboard +10%,event,"FR-4 and PP (3rd 2026 round)",https://www.eet-china.com/news/202607075670.html
+2026-05-27,ccl_hike,"Kingboard board +10%, PP +20%",event,"4th 2026 round",https://finance.sina.com.cn/stock/relnews/hk/2026-05-27/doc-inhziqxq0801894.shtml
+2026-06-16,ccl_hike,Kingboard +15%,event,"5th 2026 round; cumulative FR-4 >55%, PP >70%",https://www.eet-china.com/news/202607075670.html
+2026-07-06,ccl_hike,"Kingboard FR-4 +15%, PP +15%",event,"6th 2026 round",https://www.eet-china.com/news/202607075670.html
+2026-08-28,ccl_hike,"Kingboard FR-4 +10%, PP +10-20%",event,"7th 2026 round; FR-4 up >100% YTD",https://finance.sina.com.cn/stock/estate/integration/2026-08-28/doc-inipvrtx4752685.shtml
+2026-09-01,ccl_hike,"Panasonic std CCL/PP +30%, MEGTRON +15%",event,"Panasonic Industry",https://news.qq.com/rain/a/20260828A0BF4400
+2026-09-01,ccl_hike,Nan Ya +5-10% (reported),event,"reported 20% letter disputed by Nan Ya",https://udn.com/news/story/7240/9691519
+2025-11-27,cu_foil,Mitsubishi Materials ~+15%,event,"high-end electrolytic Cu foil",https://udn.com/news/story/7251/9166274
+2026-03-10,cu_foil,Kingboard processing fee +10%,event,"",https://www.eet-china.com/news/202607075670.html
+2026-06-01,cu_foil,Tongguan +2000 RMB/t,event,"PCB foil processing fee",https://caifuhao.eastmoney.com/news/20260613094933612676380
+2026-06-10,cu_foil,"HVLP4 fee 150-200k RMB/t; HVLP1 50-80k",event,"Dongwu copper foil report",https://pdf.dfcfw.com/pdf/H3_AP202606101823434567_1.pdf
+2026-07-06,cu_foil,"Kingboard +5-8 RMB/kg",event,"6th-round notice",https://www.eet-china.com/news/202607075670.html
+2025-06-03,lowcte_glass,Nittobo +20%,event,"glass-fiber products from Aug-2025",https://news.cnyes.com/news/id/6003271
+2025-07-28,lowcte_glass,BT substrates up to +20%,event,"Nittobo T-glass tightness",https://www.emsodm.com/html/2025/07/28/1753664147825.html
+2026-05-05,lowcte_glass,"Taiwan high-end cloth +6% Apr, ~+5% May",event,"shortage seen to H2-2027",https://wantrich.chinatimes.com/news/20260505900353-420101
+2026-08-06,lowcte_glass,Nittobo: no further T-glass hikes,event,"hyperscalers booked most premium cloth capacity",https://www.trendforce.com/news/2026/08/06/news-nittobo-raises-fy2027-net-profit-forecast-by-jpy-3b-no-further-t-glass-price-hikes-planned/
+2026-08-14,lowcte_glass,Grace Fabric ASP 11.91 RMB/m (+148% y/y),event,"Q2-2026",https://m.21jingji.com/article/20260814/herald/da869d0c5153f767d2c7d44972eea82d.html
+2026-09-21,lowcte_glass,"Jushi Sept hike: thick +15%, thin +20%",event,"new prices basically implemented",https://news.qq.com/rain/a/20260921A03YBB00
+2026-09-30,lowcte_glass,Low-Dk Gen-2 cloth >+200% YTD,event,"",https://m.21jingji.com/article/20260930/herald/ec6e0a3c581fe8c8e411b17def9d7a5c.html
