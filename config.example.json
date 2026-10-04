@@ -1,0 +1,5 @@
+{
+  "digikey_client_id": "paste DigiKey Client ID here",
+  "digikey_client_secret": "paste DigiKey Client Secret here",
+  "mouser_api_key": "paste Mouser Search API key here"
+}

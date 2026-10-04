@@ -1,0 +1,64 @@
+name: Price pull
+
+# Pulls every basket SKU once a day and rebuilds the website. Re-running on the
+# same day only fetches SKUs that are still missing (tick "Re-fetch" to redo all).
+on:
+  schedule:
+    - cron: "17 11 * * *"   # 11:17 UTC daily (7:17 am New York in summer)
+  push:                      # rebuild the site when the code, layout or basket changes
+    branches: [main]
+    paths: [tracker.py, dashboard_template.html, basket.csv]
+  workflow_dispatch:         # "Run workflow" button on the Actions tab
+    inputs:
+      force:
+        description: "Re-fetch parts already captured today"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: price-pull
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Pull prices from DigiKey and Mouser
+        env:
+          DIGIKEY_CLIENT_ID: ${{ secrets.DIGIKEY_CLIENT_ID }}
+          DIGIKEY_CLIENT_SECRET: ${{ secrets.DIGIKEY_CLIENT_SECRET }}
+          MOUSER_API_KEY: ${{ secrets.MOUSER_API_KEY }}
+        run: python tracker.py pull ${{ inputs.force && '--force' || '' }}
+
+      - name: Rebuild the website
+        run: |
+          if [ -s data/observations.csv ]; then
+            python tracker.py build --out docs
+          else
+            echo "No prices yet (check the API secrets); leaving the sample site in place."
+          fi
+
+      - name: Save new prices and site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data docs
+          if git diff --cached --quiet; then
+            echo "No new prices or site changes; nothing to commit."
+            exit 0
+          fi
+          git commit -m "Prices: $(date -u +%Y-%m-%d)"
+          git push
