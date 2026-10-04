@@ -1,0 +1,37 @@
+{
+ "as_of": "2026-09-30",
+ "rows": [
+  {
+   "label": "Conventional DRAM",
+   "period": "4Q26 QoQ",
+   "range": "+10–15%",
+   "prior": "1Q26 guide was +90–95%",
+   "source": "TrendForce, 30 Sep 2026",
+   "url": "https://www.trendforce.com/presscenter/news/20260930-13258.html"
+  },
+  {
+   "label": "NAND Flash",
+   "period": "4Q26 QoQ",
+   "range": "+15–20%",
+   "prior": "1Q26 guide was +55–60%",
+   "source": "TrendForce, 30 Sep 2026",
+   "url": "https://www.trendforce.com/presscenter/news/20260930-13258.html"
+  },
+  {
+   "label": "Enterprise SSD",
+   "period": "4Q26",
+   "range": "Accelerating",
+   "prior": "Only NAND category speeding up; 80%+ YoY bit demand",
+   "source": "TrendForce, 30 Sep 2026",
+   "url": "https://www.trendforce.com/presscenter/news/20260930-13258.html"
+  },
+  {
+   "label": "eMMC / UFS",
+   "period": "4Q26",
+   "range": "Roughly flat",
+   "prior": "Limited procurement on weak consumer demand",
+   "source": "TrendForce, 30 Sep 2026",
+   "url": "https://www.trendforce.com/presscenter/news/20260930-13258.html"
+  }
+ ]
+}

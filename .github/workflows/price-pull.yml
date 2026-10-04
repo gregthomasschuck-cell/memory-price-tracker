@@ -1,19 +1,14 @@
 name: Price pull
 
-# Pulls every basket SKU once a day and rebuilds the website. Re-running on the
-# same day only fetches SKUs that are still missing (tick "Re-fetch" to redo all).
+# Captures TrendForce's free DRAM and NAND spot and contract tables once a day
+# and rebuilds the website. Re-running only adds tables that have updated since.
 on:
   schedule:
     - cron: "17 11 * * *"   # 11:17 UTC daily (7:17 am New York in summer)
-  push:                      # rebuild the site when the code, layout or basket changes
+  push:                      # rebuild the site when the code, layout or history files change
     branches: [main]
-    paths: [tracker.py, dashboard_template.html, basket.csv]
+    paths: [tracker.py, dashboard_template.html, "data/history_*.csv", data/outlook.json]
   workflow_dispatch:         # "Run workflow" button on the Actions tab
-    inputs:
-      force:
-        description: "Re-fetch parts already captured today"
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -25,7 +20,7 @@ concurrency:
 jobs:
   pull:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -36,20 +31,12 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Pull prices from DigiKey and Mouser
-        env:
-          DIGIKEY_CLIENT_ID: ${{ secrets.DIGIKEY_CLIENT_ID }}
-          DIGIKEY_CLIENT_SECRET: ${{ secrets.DIGIKEY_CLIENT_SECRET }}
-          MOUSER_API_KEY: ${{ secrets.MOUSER_API_KEY }}
-        run: python tracker.py pull ${{ inputs.force && '--force' || '' }}
+      - name: Capture TrendForce price tables
+        if: github.event_name != 'push'
+        run: python tracker.py pull
 
       - name: Rebuild the website
-        run: |
-          if [ -s data/observations.csv ]; then
-            python tracker.py build --out docs
-          else
-            echo "No prices yet (check the API secrets); leaving the sample site in place."
-          fi
+        run: python tracker.py build --out docs
 
       - name: Save new prices and site
         run: |

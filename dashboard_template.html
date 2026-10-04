@@ -2,7 +2,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: an analyst's tear sheet. Summary strip, then index chart, vendor and category tables, supply, then the full SKU table. */
+/* Layout: an analyst's tear sheet. Summary strip, then spot vs contract charts, the daily price board, contract history and outlook. */
 :root {
   --bg: #f6f7f8;
   --surface: #fcfcfb;
@@ -122,259 +122,302 @@ td.dim { color: var(--muted); }
 .foot { color: var(--muted); font-size: 12px; max-width: 80ch; display: grid; gap: 6px; }
 .foot p { margin: 0; }
 @media (prefers-reduced-motion: no-preference) { .tg, .seg button { transition: background .12s, color .12s; } }
+
+/* Memory additions */
+.kpis { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+@media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kpi .v small { font-size: 15px; color: var(--ink-2); font-weight: 500; }
+.chip.contract { color: var(--s7); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 16px; height: 0; border-top: 2.5px solid var(--c); }
+.legend i.dash { border-top-style: dashed; }
+tr.grp td { font-family: var(--f-display); font-weight: 600; font-size: 13.5px; background: var(--accent-wash); border-bottom-color: var(--axis); white-space: normal; }
+tr.grp td .dim { font-family: var(--f-body); font-weight: 400; font-size: 12px; margin-left: 8px; }
+tr.sub td:first-child { padding-left: 22px; }
+.bench { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.bench > div { min-width: 0; display: grid; gap: 6px; align-content: start; }
+@media (max-width: 900px) { .bench { grid-template-columns: 1fr; } }
+.bench h3 { font-family: var(--f-display); font-size: 14px; font-weight: 600; margin: 0; }
+.bench td { white-space: normal; }
+a { color: var(--accent); }
+.note { font-size: 12.5px; color: var(--muted); }
+.status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.status i { width: 7px; height: 7px; border-radius: 50%; background: var(--flat); }
+.status.live i { background: var(--up); }
 </style>
 
 <div class="wrap">
   <header class="top">
     <div>
-      <div class="eyebrow">DRAM &amp; NAND · daily fixed-SKU price index</div>
+      <div class="eyebrow">DRAM &amp; NAND · daily spot and contract prices</div>
       <h1>Memory Price Tracker</h1>
     </div>
-    <div class="meta" id="meta"></div>
+    <div class="meta"><span id="meta"></span></div>
   </header>
-  <div class="sample" id="sample" hidden></div>
-  <div class="notice" id="notice" hidden></div>
 
   <section class="kpis" id="kpis" aria-label="Headline figures"></section>
 
   <section class="panel" aria-labelledby="h-trends">
-    <div class="panel-head"><div><h2 id="h-trends">Key trends</h2><p>Generated from the latest daily pull</p></div></div>
+    <div class="panel-head"><div><h2 id="h-trends">Key trends</h2><p>Computed from the latest spot and contract prints</p></div></div>
     <ul class="trends" id="trends"></ul>
   </section>
 
-  <section class="panel" aria-labelledby="h-index">
+  <section class="panel" aria-labelledby="h-dram">
     <div class="panel-head">
-      <div><h2 id="h-index">Price index</h2><p>1k-unit distributor price, chained, start of history = 100</p></div>
+      <div><h2 id="h-dram">DRAM: spot vs contract</h2><p>US$ per chip. Weekly spot average to Sep 2026, daily after; contract is the month's average.</p></div>
       <div class="controls">
-        <div class="seg" role="group" aria-label="Group by">
-          <button type="button" data-group="vendors" aria-pressed="true">Vendor</button>
-          <button type="button" data-group="categories" aria-pressed="false">Category</button>
+        <div class="seg" role="group" aria-label="Scale">
+          <button type="button" data-scale="log" aria-pressed="true">Log</button>
+          <button type="button" data-scale="lin" aria-pressed="false">Linear</button>
         </div>
         <div class="seg" role="group" aria-label="Time range">
-          <button type="button" data-range="30" aria-pressed="false">1M</button>
-          <button type="button" data-range="90" aria-pressed="false">3M</button>
+          <button type="button" data-range="183" aria-pressed="false">6M</button>
+          <button type="button" data-range="365" aria-pressed="false">1Y</button>
           <button type="button" data-range="0" aria-pressed="true">All</button>
         </div>
       </div>
     </div>
-    <div class="toggles" id="toggles"></div>
-    <div class="chart" id="chart-index"></div>
+    <div class="legend" id="lg-dram"></div>
+    <div class="chart" id="chart-dram"></div>
   </section>
 
-  <section class="panel" aria-labelledby="h-vendors">
-    <div class="panel-head"><div><h2 id="h-vendors">Vendor pricing</h2><p>Index level and change by supplier, latest pull</p></div></div>
-    <div class="tw"><table id="t-vendors"></table></div>
+  <section class="panel" aria-labelledby="h-nand">
+    <div class="panel-head"><div><h2 id="h-nand">NAND: wafer spot vs contract</h2><p>512Gb TLC wafer spot (US$, weekly then daily) against the 128Gb MLC monthly contract. Same scale and range controls as above.</p></div></div>
+    <div class="legend" id="lg-nand"></div>
+    <div class="chart" id="chart-nand"></div>
   </section>
 
-  <section class="panel" aria-labelledby="h-cats">
-    <div class="panel-head"><div><h2 id="h-cats">Category pricing</h2><p>Same basket grouped by product type</p></div></div>
-    <div class="tw"><table id="t-cats"></table></div>
+  <section class="panel" aria-labelledby="h-board">
+    <div class="panel-head"><div><h2 id="h-board">Daily price board</h2><p id="board-sub">Every item on TrendForce's free spot and contract tables, captured each day. Change columns fill in as daily history builds.</p></div></div>
+    <div class="tw"><table id="t-board"></table></div>
   </section>
 
-  <div class="two">
-    <section class="panel" aria-labelledby="h-stock">
-      <div class="panel-head"><div><h2 id="h-stock">In-stock share</h2><p>% of basket with distributor stock &gt; 0</p></div></div>
-      <div class="chart" id="chart-stock"></div>
+  <div class="bench">
+    <section class="panel" aria-labelledby="h-contract">
+      <div class="panel-head"><div><h2 id="h-contract">Monthly contract history</h2><p>DRAMeXchange month-average contract, US$</p></div></div>
+      <div class="tw"><table id="t-contract"></table></div>
     </section>
-    <section class="panel" aria-labelledby="h-lead">
-      <div class="panel-head"><div><h2 id="h-lead">Quoted lead time</h2><p>Median factory lead time across the basket, in weeks</p></div></div>
-      <div class="chart" id="chart-lead"></div>
+    <section class="panel" aria-labelledby="h-outlook">
+      <div class="panel-head"><div><h2 id="h-outlook">Contract outlook</h2><p id="outlook-sub">TrendForce quarterly guide</p></div></div>
+      <div class="tw"><table id="t-outlook"></table></div>
     </section>
   </div>
 
-  <section class="panel" aria-labelledby="h-parts">
-    <div class="panel-head">
-      <div><h2 id="h-parts">Product pricing</h2><p id="parts-sub">Every SKU in the basket. Click a column to sort.</p></div>
-      <div class="filters">
-        <label class="vh" for="q" hidden>Search part number</label>
-        <input id="q" type="search" placeholder="Search part number">
-        <select id="fv" aria-label="Vendor"></select>
-        <select id="fc" aria-label="Category"></select>
-      </div>
-    </div>
-    <div class="tw"><table id="t-parts"></table></div>
-    <button type="button" class="more" id="more" hidden>Show more</button>
-  </section>
 
-  <footer class="foot" id="foot">
-    <p><b>Method.</b> Every day the script records the 1,000-unit price break, stock and quoted lead time for every basket SKU at DigiKey and Mouser. The index chains the geometric mean of day-over-day price relatives for SKU/distributor pairs priced on both days, so parts that drop out or get added do not move it. Relatives outside 0.5x–2.0x are treated as data errors and excluded.</p>
-    <p><b>Read with care.</b> Distributor list prices lag contract and spot pricing; server DRAM, HBM and enterprise SSD price off contract and are not sold through distribution, so this basket covers the memory that does trade there. Samsung and SK hynix sell little through DigiKey and Mouser. Stock-outs can freeze a listed price.</p>
+  <footer class="foot">
+    <p><b>Sources.</b> Spot: TrendForce/DRAMeXchange. History to Sep 2026 is the "this week" average from each weekly <i>Memory Spot Price Update</i>; a few gap weeks use the prior-week figure stated in the following article. From Oct 2026 every free table on trendforce.com/price is captured each morning by a GitHub Action. Contract: DRAMeXchange monthly averages as reported by TrendForce and Korean, Taiwanese and Chinese press; links on each row.</p>
+    <p><b>Read with care.</b> The DDR4 8Gb spot series is DDR4 1Gx8 3200MT/s chips; the contract series is the PC DRAM DDR4 8Gb benchmark. The NAND chart compares a TLC wafer spot with an MLC packaged-chip contract, so read the trend, not the gap. TrendForce sometimes revises the prior week's spot average; this page keeps each week's first print.</p>
   </footer>
 </div>
 
 <script>
-const DATA = /*__DATA__*/null;
-
+const SNAP = /*__DATA__*/null;
 (function () {
-  const D = DATA;
   const $ = (s) => document.querySelector(s);
-  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  const SLOT = ["--s1","--s2","--s3","--s4","--s5","--s6","--s7","--s8"];
-  const pct = (x, d = 1) => { if (x == null || !isFinite(x)) return "–"; const r = +(x * 100).toFixed(d); return (r > 0 ? "+" : "") + (r === 0 ? (0).toFixed(d) : r.toFixed(d)) + "%"; };
+  const pct = (x, d = 1) => x == null || !isFinite(x) ? "–" : (x > 0 ? "+" : "") + (x * 100).toFixed(d) + "%";
   const cls = (x) => x == null || !isFinite(x) || Math.abs(x) < 0.0005 ? "flat" : x > 0 ? "up" : "down";
   const arrow = (x) => x == null || !isFinite(x) || Math.abs(x) < 0.0005 ? "" : x > 0 ? "▲ " : "▼ ";
   const chg = (x, d) => `<span class="${cls(x)}">${arrow(x)}${pct(x, d)}</span>`;
-  const money = (x) => x == null ? "–" : "$" + (x < 1 ? x.toFixed(4) : x < 100 ? x.toFixed(3) : x.toFixed(2));
-  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const fmtDate = (s) => { const d = new Date(s + "T00:00:00"); return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "2-digit" }); };
+  const money = (x) => x == null || !isFinite(x) ? "–" : "$" + (x < 10 ? x.toFixed(3) : x.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const T = (s) => new Date(s.length === 7 ? s + "-15T00:00:00Z" : s.slice(0, 10) + "T00:00:00Z").getTime();
+  const fmtD = (t, y = true) => new Date(t).toLocaleDateString("en-US", { month: "short", day: "numeric", ...(y ? { year: "2-digit" } : {}), timeZone: "UTC" });
+  const fmtM = (m) => new Date(m + "-15T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "2-digit", timeZone: "UTC" });
+  const DAY = 864e5;
 
-  // Fixed colour per entity, by name order in the data (never by rank)
-  const colorOf = {};
-  D.vendor_order.forEach((v, i) => colorOf["v:" + v] = SLOT[i % 8]);
-  D.category_order.forEach((c, i) => colorOf["c:" + c] = SLOT[i % 8]);
+  // ---------- state ----------
+  const S = { weekly: SNAP.weekly, contract: SNAP.contract, spot: SNAP.spot, outlook: SNAP.outlook };
+  const ui = { scale: "log", range: 0 };
+  try { const u = JSON.parse(localStorage.getItem("mpt2-ui") || "null"); if (u) Object.assign(ui, u); } catch (e) {}
 
-  // Header
-  $("#meta").innerHTML = `As of <b>${fmtDate(D.latest_date)}</b> · ${D.n_parts} SKUs · ${D.distributors.join(" + ")} · ${D.dates.length} day${D.dates.length === 1 ? "" : "s"} of history` +
-    (D.download ? ` · <a href="${D.download}">Download Excel</a>` : "");
-  if (!D.is_sample && D.dates.length < 2) { const n = $("#notice"); n.hidden = false; n.innerHTML = `<b>Day one of tracking.</b> Prices are pulled every day at 11:17 UTC. Price changes and the index line start with the second day's pull; the 1W, 1M and 3M columns fill in as history builds. Stock and lead times below are already live.`; }
-  if (D.is_sample) { const s = $("#sample"); s.hidden = false; s.innerHTML = "<b>Sample data.</b> These prices are synthetic and only show the layout. Live DigiKey and Mouser data replaces them after the first price pull."; }
+  // ---------- derived series ----------
+  const DDR4 = "DDR4 8Gb (1Gx8) 3200", DDR5 = "DDR5 16Gb (2Gx8) 4800/5600", TLC = "512Gb TLC";
+  function spotSeries(table, item, weeklyKey) {
+    const pts = new Map();
+    if (weeklyKey) S.weekly.forEach((w) => { if (w[weeklyKey] != null && w[weeklyKey] !== "") pts.set(w.date, +w[weeklyKey]); });
+    S.spot.filter((s) => s.table === table).forEach((s) => { const r = s.rows.find((r) => r.item === item); if (r && r.avg != null) pts.set(s.date, +r.avg); });
+    return [...pts.entries()].sort((a, b) => a[0] < b[0] ? -1 : 1).map(([d, v]) => [T(d), v, d]);
+  }
+  const contractSeries = (key) => S.contract.filter((c) => c[key] != null && c[key] !== "").sort((a, b) => a.month < b.month ? -1 : 1).map((c) => [T(c.month), +c[key], c.month]);
+  const at = (ser, t) => { let v = null; for (const p of ser) { if (p[0] <= t) v = p; else break; } return v; };
+  const back = (ser, days) => { if (!ser.length) return null; const last = ser[ser.length - 1]; const p = at(ser, last[0] - days * DAY); return p ? last[1] / p[1] - 1 : null; };
 
-  // KPIs
-  const k = D.kpis;
-  $("#kpis").innerHTML = [
-    ["Basket index", k.index.toFixed(1), `${chg(k.since)} since ${fmtDate(D.dates[0])}`],
-    ["1-month change", `<span class="${cls(k.m1)}">${pct(k.m1)}</span>`, `${chg(k.w1)} 1W · ${chg(k.d1, 2)} 1D`],
-    ["Parts up, latest pull", `${k.n_up}<span class="s"> / ${k.n_priced}</span>`, `${k.n_down} down · ${k.n_up_big} up &gt;10%`],
-    ["Median lead time", `${k.lead == null ? "–" : k.lead.toFixed(0) + " wk"}`, k.lead_d30 == null ? "–" : `${k.lead_d30 >= 0 ? "+" : ""}${k.lead_d30.toFixed(0)} wk vs a month ago`],
-    ["In stock", `${(k.instock * 100).toFixed(0)}%`, k.instock_d30 == null ? "–" : `${k.instock_d30 >= 0 ? "+" : ""}${(k.instock_d30 * 100).toFixed(0)} pts vs a month ago`],
-  ].map(([l, v, s]) => `<div class="kpi"><div class="eyebrow">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join("");
-
-  // Trends
-  $("#trends").innerHTML = D.trends.map((t) => `<li><span class="chip ${t.kind}">${t.kind === "sku" ? "SKU" : t.kind}</span><span>${esc(t.text)}</span></li>`).join("");
-
-  // ---------- line chart ----------
-  function niceTicks(lo, hi, n) {
+  // ---------- chart ----------
+  function niceLin(lo, hi, n) {
     const span = hi - lo || 1, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
     const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => span / s <= n) || 10 * mag;
-    const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(6));
+    const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(6)); return out;
+  }
+  function niceLog(lo, hi) {
+    const out = [];
+    for (let e = Math.floor(Math.log10(lo)); e <= Math.ceil(Math.log10(hi)); e++) for (const m of [1, 2, 5]) { const v = m * Math.pow(10, e); if (v >= lo * 0.999 && v <= hi * 1.001) out.push(v); }
     return out;
   }
-  function lineChart(el, weeks, series, opt) {
-    if (weeks.length < 2) { el.innerHTML = `<div class="empty" style="min-height:${Math.min(opt.h || 300, 220)}px">${esc(opt.empty || "The line starts after a second week of data.")}</div>`; return; }
-    const W = Math.max(280, el.clientWidth), H = opt.h || 300, m = { t: 12, r: series.length > 1 ? 64 : 16, b: 26, l: 44 };
+  function timeChart(el, series, opt) {
+    const W = Math.max(280, el.clientWidth), H = opt.h || 320, m = { t: 12, r: 72, b: 26, l: 48 };
     const iw = W - m.l - m.r, ih = H - m.t - m.b;
-    const vals = series.flatMap((s) => s.values.filter((v) => v != null));
+    const all = series.flatMap((s) => s.points);
+    let t1 = Math.max(...all.map((p) => p[0])), t0 = Math.min(...all.map((p) => p[0]));
+    if (ui.range) t0 = Math.max(t0, t1 - ui.range * DAY);
+    const vis = (s) => { const i = s.points.findIndex((p) => p[0] >= t0); const pts = i < 0 ? [] : s.points.slice(i); if (s.step && i > 0) pts.unshift([t0, s.points[i - 1][1]]); return pts; };
+    const sv = series.map((s) => ({ ...s, vp: vis(s) })).filter((s) => s.vp.length);
+    const vals = sv.flatMap((s) => s.vp.map((p) => p[1]));
     let lo = Math.min(...vals), hi = Math.max(...vals);
-    if (opt.base != null) { lo = Math.min(lo, opt.base); hi = Math.max(hi, opt.base); }
-    const pad = (hi - lo) * 0.08 || 1; lo -= pad; hi += pad;
-    const ticks = niceTicks(lo, hi, 5); lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]);
-    const tstep = ticks.length > 1 ? ticks[1] - ticks[0] : 1; let tdec = 0; while (tdec < 4 && Math.abs(Math.round(tstep * 10 ** tdec) - tstep * 10 ** tdec) > 1e-6) tdec++;
-    const x = (i) => m.l + (weeks.length === 1 ? iw / 2 : (i / (weeks.length - 1)) * iw);
-    const y = (v) => m.t + ih - ((v - lo) / (hi - lo)) * ih;
-    const xt = []; const every = Math.max(1, Math.ceil(weeks.length / Math.max(2, Math.floor(iw / 80))));
-    for (let i = 0; i < weeks.length; i += every) xt.push(i);
+    const log = ui.scale === "log" && lo > 0;
+    let ticks;
+    if (log) { lo /= 1.15; hi *= 1.15; ticks = niceLog(lo, hi); if (ticks.length < 3) { ticks = niceLin(lo, hi, 5).filter((v) => v > 0); } }
+    else { const pad = (hi - lo) * 0.08 || 1; lo = Math.max(0, lo - pad); hi += pad; ticks = niceLin(lo, hi, 5); lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]); }
+    const x = (t) => m.l + ((t - t0) / ((t1 - t0) || 1)) * iw;
+    const y = (v) => log ? m.t + ih - ((Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo))) * ih : m.t + ih - ((v - lo) / (hi - lo)) * ih;
+    const yf = (v) => v >= 100 ? v.toFixed(0) : v >= 10 ? v.toFixed(0) : v >= 1 ? v.toFixed(v % 1 ? 1 : 0) : v.toFixed(2);
     let s = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="${esc(opt.label)}">`;
-    ticks.forEach((t) => { s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)" stroke-width="1"/><text x="${m.l - 8}" y="${y(t) + 3.5}" text-anchor="end">${opt.yfmt(t, false, tdec)}</text>`; });
-    if (opt.base != null) s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(opt.base)}" y2="${y(opt.base)}" stroke="var(--axis)" stroke-width="1" stroke-dasharray="3 3"/>`;
+    ticks.forEach((t) => { if (t < lo || t > hi) return; s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${y(t) + 3.5}" text-anchor="end">$${yf(t)}</text>`; });
     s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${m.t + ih}" y2="${m.t + ih}" stroke="var(--axis)"/>`;
-    xt.forEach((i) => s += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${fmtDate(weeks[i])}</text>`);
+    // month ticks
+    const span = (t1 - t0) / DAY, stepM = span > 500 ? 3 : span > 200 ? 2 : 1, n = Math.max(2, Math.floor(iw / 70));
+    const d0 = new Date(t0); let d = Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1); const xs = [];
+    while (d <= t1) { xs.push(d); const dd = new Date(d); d = Date.UTC(dd.getUTCFullYear(), dd.getUTCMonth() + stepM, 1); }
+    const every = Math.max(1, Math.ceil(xs.length / n));
+    xs.forEach((t, i) => { if (i % every) return; s += `<line x1="${x(t)}" x2="${x(t)}" y1="${m.t + ih}" y2="${m.t + ih + 4}" stroke="var(--axis)"/><text x="${x(t)}" y="${H - 8}" text-anchor="middle">${new Date(t).toLocaleDateString("en-US", { month: "short", year: "2-digit", timeZone: "UTC" })}</text>`; });
     const labels = [];
-    series.forEach((ser) => {
-      let d = "", pen = false;
-      ser.values.forEach((v, i) => { if (v == null) { pen = false; return; } d += (pen ? "L" : "M") + x(i).toFixed(1) + "," + y(v).toFixed(1); pen = true; });
-      s += `<path d="${d}" fill="none" stroke="var(${ser.color})" stroke-width="${ser.w || 2}" stroke-linejoin="round" stroke-linecap="round"/>`;
-      const li = ser.values.length - 1 - [...ser.values].reverse().findIndex((v) => v != null);
-      if (li >= 0 && li < ser.values.length) { s += `<circle cx="${x(li)}" cy="${y(ser.values[li])}" r="3.5" fill="var(${ser.color})" stroke="var(--surface)" stroke-width="2"/>`; labels.push({ y: y(ser.values[li]), x: x(li), t: ser.short || ser.name }); }
+    sv.forEach((ser) => {
+      let dd = "";
+      ser.vp.forEach((p, i) => { const X = x(p[0]).toFixed(1), Y = y(p[1]).toFixed(1); if (!i) dd += `M${X},${Y}`; else if (ser.step) dd += `H${X}V${Y}`; else dd += `L${X},${Y}`; });
+      if (ser.step) dd += `H${x(t1).toFixed(1)}`;
+      s += `<path d="${dd}" fill="none" stroke="var(${ser.color})" stroke-width="${ser.w || 2}" ${ser.dash ? 'stroke-dasharray="5 4"' : ""} stroke-linejoin="round" stroke-linecap="round"/>`;
+      const lp = ser.vp[ser.vp.length - 1], lx = ser.step ? x(t1) : x(lp[0]);
+      s += `<circle cx="${lx}" cy="${y(lp[1])}" r="3.5" fill="var(${ser.color})" stroke="var(--surface)" stroke-width="2"/>`;
+      labels.push({ y: y(lp[1]), x: lx, t: "$" + (lp[1] < 10 ? lp[1].toFixed(2) : lp[1].toFixed(1)), c: ser.color });
     });
-    if (series.length > 1 && series.length <= 4) { // direct labels, de-collided
-      labels.sort((a, b) => a.y - b.y); for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 13) labels[i].y = labels[i - 1].y + 13;
-      labels.forEach((l) => s += `<text x="${l.x + 8}" y="${l.y + 3.5}" style="fill:var(--ink-2)">${esc(l.t)}</text>`);
-    }
-    s += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--axis)" visibility="hidden"/>`;
-    s += `<rect x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent" class="hit"/></svg><div class="tip" hidden></div>`;
+    labels.sort((a, b) => a.y - b.y); for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 13) labels[i].y = labels[i - 1].y + 13;
+    labels.forEach((l) => s += `<text x="${l.x + 8}" y="${l.y + 3.5}" style="fill:var(--ink-2)">${l.t}</text>`);
+    s += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--axis)" visibility="hidden"/><rect x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/></svg><div class="tip" hidden></div>`;
     el.innerHTML = s;
     const svg = el.querySelector("svg"), tip = el.querySelector(".tip"), xh = el.querySelector(".xh");
-    const move = (ev) => {
+    svg.addEventListener("pointermove", (ev) => {
       const r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) * (W / r.width);
-      const i = Math.max(0, Math.min(weeks.length - 1, Math.round(((px - m.l) / iw) * (weeks.length - 1))));
-      xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i)); xh.setAttribute("visibility", "visible");
-      const rows = series.map((ser) => ({ ser, v: ser.values[i] })).filter((r) => r.v != null).sort((a, b) => b.v - a.v);
-      tip.innerHTML = `<div class="d">${fmtDate(weeks[i])}</div>` + rows.map((r) => `<div class="r"><i style="background:var(${r.ser.color})"></i><span>${esc(r.ser.name)}</span><b class="num">${opt.yfmt(r.v, true)}</b></div>`).join("");
-      tip.hidden = false;
-      const tx = (x(i) / W) * r.width; tip.style.left = (tx + tip.offsetWidth + 16 > r.width ? tx - tip.offsetWidth - 12 : tx + 12) + "px"; tip.style.top = "8px";
-    };
-    svg.addEventListener("pointermove", move);
+      const t = t0 + ((px - m.l) / iw) * (t1 - t0); if (t < t0 - DAY || t > t1 + DAY) return;
+      xh.setAttribute("x1", px); xh.setAttribute("x2", px); xh.setAttribute("visibility", "visible");
+      const rows = sv.map((ser) => ({ ser, p: at(ser.points, t) })).filter((r) => r.p);
+      tip.innerHTML = `<div class="d">${fmtD(t)}</div>` + rows.map((r) => `<div class="r"><i style="background:var(${r.ser.color})"></i><span>${esc(r.ser.name)} <span class="dim">${r.ser.step ? fmtM(r.p[2]) : fmtD(r.p[0], false)}</span></span><b class="num">${money(r.p[1])}</b></div>`).join("");
+      tip.hidden = false; const tx = (px / W) * r.width;
+      tip.style.left = (tx + tip.offsetWidth + 16 > r.width ? tx - tip.offsetWidth - 12 : tx + 12) + "px"; tip.style.top = "8px";
+    });
     svg.addEventListener("pointerleave", () => { tip.hidden = true; xh.setAttribute("visibility", "hidden"); });
   }
+  const legend = (el, series) => { el.innerHTML = series.map((s) => `<span style="--c:var(${s.color})"><i class="${s.dash ? "dash" : ""}"></i>${esc(s.name)}</span>`).join(""); };
 
-  // ---------- index chart state ----------
-  const state = { group: "vendors", range: 0, on: { vendors: new Set(D.vendor_order.slice(0, 2)), categories: new Set(D.category_order.slice(0, 2)) } };
-  try { const saved = JSON.parse(localStorage.getItem("apt-state") || "null"); if (saved) { state.group = saved.group || state.group; state.range = saved.range ?? 0; ["vendors", "categories"].forEach((g) => { if (saved.on && saved.on[g]) state.on[g] = new Set(saved.on[g].filter((n) => D.index[g][n])); }); } } catch (e) {}
-  const save = () => { try { localStorage.setItem("apt-state", JSON.stringify({ group: state.group, range: state.range, on: { vendors: [...state.on.vendors], categories: [...state.on.categories] } })); } catch (e) {} };
-  const names = () => state.group === "vendors" ? D.vendor_order : D.category_order;
-  const pre = () => state.group === "vendors" ? "v:" : "c:";
+  // ---------- render ----------
+  function render() {
+    const d4 = spotSeries("dram_spot", DDR4, "ddr4_8gb"), d5 = spotSeries("dram_spot", DDR5, null), tl = spotSeries("wafer_spot", TLC, "tlc512_wafer");
+    const c4 = contractSeries("ddr4_8gb"), cm = contractSeries("nand_128gb_mlc");
+    const last = (a) => a.length ? a[a.length - 1] : null;
+    const L4 = last(d4), L5 = last(d5), LT = last(tl), C4 = last(c4), CM = last(cm);
+    const mom = (a) => a.length > 1 ? a[a.length - 1][1] / a[a.length - 2][1] - 1 : null;
+    const yoy = (a) => back(a, 365);
+    const latestStamp = S.spot.map((s) => s.updated).sort().pop();
+    $("#meta").innerHTML = `Spot through <b>${L4 ? fmtD(L4[0]) : "–"}</b> · contract through <b>${C4 ? fmtM(C4[2]) : "–"}</b>` + (latestStamp ? ` · last capture ${esc(latestStamp.slice(0, 16).replace("T", " "))} TW` : "");
 
-  function drawToggles() {
-    $("#toggles").innerHTML = `<button type="button" class="tg" aria-pressed="true" disabled style="--c:var(--s-basket)"><span class="sw"></span>Basket</button>` +
-      names().map((n) => `<button type="button" class="tg" data-n="${esc(n)}" aria-pressed="${state.on[state.group].has(n)}" style="--c:var(${colorOf[pre() + n]})"><span class="sw"></span>${esc(n)}</button>`).join("");
-  }
-  function drawIndex() {
-    const ord = (x) => Math.round(new Date(x + "T00:00:00").getTime() / 864e5), lastOrd = ord(D.dates[D.dates.length - 1]);
-    let start = 0; if (state.range) { start = D.dates.findIndex((x) => ord(x) >= lastOrd - state.range); if (start < 0) start = 0; }
-    const weeks = D.dates.slice(start);
-    const rebase = (arr) => { const a = arr.slice(start); const b = a.find((v) => v != null); return state.range ? a.map((v) => v == null ? null : (v / b) * 100) : a; };
-    const series = [{ name: "Basket", short: "Basket", color: "--s-basket", w: 2.5, values: rebase(D.index.all) }];
-    names().forEach((nm) => { if (state.on[state.group].has(nm)) series.push({ name: nm, short: nm, color: colorOf[pre() + nm], values: rebase(D.index[state.group][nm]) }); });
-    lineChart($("#chart-index"), weeks, series, { label: "Price index", base: 100, yfmt: (v, tip, d = 0) => tip ? v.toFixed(1) : v.toFixed(d), empty: "The index line starts with the second day of prices." });
-  }
-  document.querySelectorAll("[data-group]").forEach((b) => b.addEventListener("click", () => { state.group = b.dataset.group; syncSeg(); drawToggles(); drawIndex(); save(); }));
-  document.querySelectorAll("[data-range]").forEach((b) => b.addEventListener("click", () => { state.range = +b.dataset.range; syncSeg(); drawIndex(); save(); }));
-  $("#toggles").addEventListener("click", (e) => { const b = e.target.closest("[data-n]"); if (!b) return; const s = state.on[state.group]; s.has(b.dataset.n) ? s.delete(b.dataset.n) : s.add(b.dataset.n); b.setAttribute("aria-pressed", s.has(b.dataset.n)); drawIndex(); save(); });
-  function syncSeg() {
-    document.querySelectorAll("[data-group]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.group === state.group));
-    document.querySelectorAll("[data-range]").forEach((b) => b.setAttribute("aria-pressed", +b.dataset.range === state.range));
+    const prem = L4 && C4 ? L4[1] / C4[1] - 1 : null;
+    $("#kpis").innerHTML = [
+      ["DDR4 8Gb spot", L4 ? money(L4[1]) : "–", `${chg(back(d4, 28))} 4W · ${chg(yoy(d4), 0)} 1Y`],
+      ["DDR5 16Gb spot", L5 ? money(L5[1]) : "–", d5.length > 1 ? `${chg(back(d5, 28) ?? (L5[1] / d5[0][1] - 1))} since ${fmtD(d5[0][0], false)}` : "Daily series from Oct 2026"],
+      ["DDR4 8Gb contract", C4 ? money(C4[1]) : "–", `${chg(mom(c4))} MoM · ${C4 ? fmtM(C4[2]) : ""}`],
+      ["Spot premium", prem == null ? "–" : `${prem > 0 ? "+" : ""}${(prem * 100).toFixed(0)}<small>%</small>`, "DDR4 8Gb spot over contract"],
+      ["512Gb TLC wafer", LT ? money(LT[1]) : "–", `${chg(back(tl, 28))} 4W · ${chg(yoy(tl), 0)} 1Y`],
+      ["128Gb MLC contract", CM ? money(CM[1]) : "–", `${chg(mom(cm))} MoM · ${CM ? fmtM(CM[2]) : ""}`],
+    ].map(([l, v, s]) => `<div class="kpi"><div class="eyebrow">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join("");
+
+    // trends
+    const tr = [];
+    if (L4) tr.push(["price", `DDR4 8Gb spot at ${money(L4[1])}: ${pct(back(d4, 28))} over 4 weeks and ${(L4[1] / d4[0][1]).toFixed(0)}x since ${fmtD(d4[0][0])} (${money(d4[0][1])}).`]);
+    if (prem != null) tr.push(["contract", `Spot is ${pct(prem, 0)} over the ${fmtM(C4[2])} DDR4 8Gb contract (${money(C4[1])}); contract has risen ${c4.length > 12 ? pct(C4[1] / c4[c4.length - 13][1] - 1, 0) + " in 12 months" : pct(mom(c4)) + " MoM"}.`]);
+    if (LT) { const pk = tl.reduce((a, b) => b[1] > a[1] ? b : a); tr.push(["price", `512Gb TLC wafer spot at ${money(LT[1])}, ${pct(back(tl, 28))} over 4 weeks; ${pct(LT[1] / pk[1] - 1)} from its ${fmtD(pk[0])} peak of ${money(pk[1])}.`]); }
+    if (CM) { let n = 0; for (let i = cm.length - 1; i > 0 && cm[i][1] > cm[i - 1][1]; i--) n++; tr.push(["contract", `128Gb MLC contract ${money(CM[1])} in ${fmtM(CM[2])} (${pct(mom(cm))} MoM), its ${n}th straight monthly gain; gains have slowed from ${pct(cm[cm.length - 6][1] / cm[cm.length - 7][1] - 1, 0)} in ${fmtM(cm[cm.length - 6][2])}.`]); }
+    const board = boardRows();
+    const movers = board.filter((r) => r.w1 != null).sort((a, b) => Math.abs(b.w1) - Math.abs(a.w1)).slice(0, 3);
+    if (movers.length) tr.push(["sku", `Biggest 1-week moves on the board: ${movers.map((r) => `${r.item} ${pct(r.w1)}`).join(", ")}.`]);
+    else { const dc = board.filter((r) => r.chg != null).sort((a, b) => Math.abs(b.chg) - Math.abs(a.chg)).slice(0, 3); if (dc.length) tr.push(["sku", `Largest moves in the latest session: ${dc.map((r) => `${r.item} ${pct(r.chg / 100, 2)}`).join(", ")}.`]); }
+    (S.outlook?.rows || []).slice(0, 2).forEach((o) => tr.push(["contract", `TrendForce ${o.period} guide for ${o.label}: ${o.range} (${o.prior}).`]));
+    $("#trends").innerHTML = tr.map(([k, t]) => `<li><span class="chip ${k === "contract" ? "contract" : k === "sku" ? "sku" : "price"}">${k === "sku" ? "Board" : k}</span><span>${esc(t)}</span></li>`).join("");
+
+    // charts
+    const dramS = [
+      { name: "DDR4 8Gb spot", color: "--s1", points: d4 },
+      { name: "DDR4 8Gb contract", color: "--s2", points: c4, step: true, dash: true },
+    ]; if (d5.length > 1) dramS.push({ name: "DDR5 16Gb spot", color: "--s3", points: d5 });
+    const nandS = [
+      { name: "512Gb TLC wafer spot", color: "--s1", points: tl },
+      { name: "128Gb MLC contract", color: "--s2", points: cm, step: true, dash: true },
+    ];
+    legend($("#lg-dram"), dramS); legend($("#lg-nand"), nandS);
+    timeChart($("#chart-dram"), dramS, { label: "DRAM spot vs contract" });
+    timeChart($("#chart-nand"), nandS, { label: "NAND spot vs contract" });
+
+    // board
+    const groups = {}; board.forEach((r) => (groups[r.table] = groups[r.table] || []).push(r));
+    $("#t-board").innerHTML = `<thead><tr><th>Item</th><th class="n">Average</th><th class="n">High</th><th class="n">Low</th><th class="n">Session chg</th><th class="n">1W</th><th class="n">1M</th><th>History</th></tr></thead><tbody>` +
+      TABLES.filter((t) => groups[t.id]).map((t) => `<tr class="grp"><td colspan="8">${esc(t.name)}<span class="dim">updated ${esc(groups[t.id][0].updated.slice(0, 16).replace("T", " "))} Taiwan · ${t.freq}</span></td></tr>` +
+        groups[t.id].map((r) => `<tr class="sub"><td>${esc(r.item)}</td><td class="n"><b>${money(r.avg)}</b></td><td class="n">${money(r.high)}</td><td class="n">${money(r.low)}</td><td class="n">${r.chg == null ? "–" : chg(r.chg / 100, 2)}</td><td class="n">${r.w1 == null ? "–" : chg(r.w1)}</td><td class="n">${r.m1 == null ? "–" : chg(r.m1)}</td><td>${spark(r.hist)}</td></tr>`).join("")).join("") + "</tbody>";
+    $("#board-sub").textContent = `${board.length} items from TrendForce's free spot and contract tables, captured each morning since Oct 4, 2026. Each table updates on its own schedule (shown on its header row); 1W and 1M fill in as captures accumulate.`;
+
+    // contract table
+    const ct = [...S.contract].sort((a, b) => a.month < b.month ? 1 : -1).slice(0, 13);
+    $("#t-contract").innerHTML = `<thead><tr><th>Month</th><th class="n">DDR4 8Gb</th><th class="n">MoM</th><th class="n">128Gb MLC</th><th class="n">MoM</th><th></th></tr></thead><tbody>` +
+      ct.slice(0, 12).map((c, i) => { const p = ct[i + 1]; return `<tr><td>${fmtM(c.month)}</td><td class="n">${money(+c.ddr4_8gb)}</td><td class="n">${p ? chg(c.ddr4_8gb / p.ddr4_8gb - 1) : "–"}</td><td class="n">${money(+c.nand_128gb_mlc)}</td><td class="n">${p ? chg(c.nand_128gb_mlc / p.nand_128gb_mlc - 1) : "–"}</td><td>${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">source</a>` : ""}</td></tr>`; }).join("") + "</tbody>";
+
+    const O = S.outlook || {};
+    if (O.as_of) $("#outlook-sub").textContent = `TrendForce quarterly contract guide, as of ${fmtD(T(O.as_of))}`;
+    $("#t-outlook").innerHTML = `<thead><tr><th>Product</th><th>Period</th><th class="n">Guide</th><th>Context</th></tr></thead><tbody>` +
+      (O.rows || []).map((r) => `<tr><td>${esc(r.label)}</td><td class="dim">${esc(r.period)}</td><td class="n"><b>${esc(r.range)}</b></td><td class="dim" style="font-size:12.5px">${esc(r.prior)} · <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.source)}</a></td></tr>`).join("") + "</tbody>";
+
   }
 
-  // ---------- sparkline ----------
-  function spark(vals, color) {
-    const v = vals.filter((x) => x != null); if (v.length < 2) return "";
-    const w = 84, h = 22, lo = Math.min(...v), hi = Math.max(...v), r = hi - lo || 1;
-    const pts = vals.map((x, i) => x == null ? null : [(i / (vals.length - 1)) * (w - 4) + 2, h - 3 - ((x - lo) / r) * (h - 6)]).filter(Boolean);
-    const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join("");
-    const e = pts[pts.length - 1];
-    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${d}" fill="none" stroke="var(${color})" stroke-width="1.5"/><circle cx="${e[0]}" cy="${e[1]}" r="2.2" fill="var(${color})"/></svg>`;
-  }
-
-  // ---------- group tables ----------
-  function groupTable(el, rows, prefix, label) {
-    el.innerHTML = `<thead><tr><th>${label}</th><th class="n">SKUs</th><th class="n">Index</th><th class="n">1D</th><th class="n">1W</th><th class="n">1M</th><th class="n">3M</th><th class="n">Up / down 1D</th><th class="n">In stock</th><th class="n">Lead (wk)</th><th>3M trend</th></tr></thead><tbody>` +
-      rows.map((r) => `<tr><td><span class="sw" style="--c:var(${colorOf[prefix + r.name]})"></span>${esc(r.name)}</td><td class="n">${r.parts}</td><td class="n">${r.index.toFixed(1)}</td><td class="n">${chg(r.d1, 2)}</td><td class="n">${chg(r.w1)}</td><td class="n">${chg(r.m1)}</td><td class="n">${chg(r.m3)}</td><td class="n">${r.n_up} / ${r.n_down}</td><td class="n">${(r.instock * 100).toFixed(0)}%</td><td class="n">${r.lead == null ? "–" : r.lead.toFixed(0)}</td><td>${spark(r.spark, colorOf[prefix + r.name])}</td></tr>`).join("") + "</tbody>";
-  }
-  groupTable($("#t-vendors"), D.vendors, "v:", "Vendor");
-  groupTable($("#t-cats"), D.categories, "c:", "Category");
-
-  // ---------- supply charts ----------
-  function drawSupply() {
-    lineChart($("#chart-stock"), D.dates, [{ name: "In stock", color: "--s1", values: D.supply.instock.map((v) => v == null ? null : v * 100) }], { h: 200, label: "In-stock share", yfmt: (v, tip, d = 0) => v.toFixed(tip ? 0 : d) + "%", empty: `${D.supply.instock[0] == null ? "–" : Math.round(D.supply.instock[0] * 100) + "%"} in stock today. The trend line starts with tomorrow's pull.` });
-    lineChart($("#chart-lead"), D.dates, [{ name: "Median lead", color: "--s2", values: D.supply.lead }], { h: 200, label: "Median lead time", yfmt: (v, tip, d = 0) => v.toFixed(tip ? 0 : d), empty: `${D.supply.lead[0] == null ? "–" : D.supply.lead[0].toFixed(0) + " weeks"} median lead time today. The trend line starts with tomorrow's pull.` });
-  }
-
-  // ---------- parts table ----------
-  const fv = $("#fv"), fc = $("#fc");
-  fv.innerHTML = `<option value="">All vendors</option>` + D.vendor_order.map((v) => `<option>${esc(v)}</option>`).join("");
-  fc.innerHTML = `<option value="">All categories</option>` + D.category_order.map((v) => `<option>${esc(v)}</option>`).join("");
-  const cols = [
-    ["mpn", "Part number", false], ["vendor", "Vendor", false], ["category", "Category", false],
-    ["dk", "DigiKey 1k", true], ["mo", "Mouser 1k", true], ["d1", "1D", true], ["w1", "1W", true], ["m1", "1M", true],
-    ["stock", "Stock", true], ["lead", "Lead (wk)", true], ["spark", "3M trend", null],
+  const TABLES = [
+    { id: "dram_spot", name: "DRAM chip spot", freq: "daily" },
+    { id: "module_spot", name: "DRAM module spot", freq: "weekly" },
+    { id: "gddr_spot", name: "GDDR spot", freq: "weekly" },
+    { id: "dram_contract", name: "DRAM contract", freq: "twice monthly" },
+    { id: "flash_spot", name: "NAND flash chip spot", freq: "daily" },
+    { id: "wafer_spot", name: "NAND wafer spot", freq: "weekly" },
+    { id: "memCard_spot", name: "Memory card spot", freq: "daily" },
+    { id: "flash_contract", name: "NAND contract (memory card/UFD)", freq: "twice monthly" },
+    { id: "pcc_oem_ssd_contract", name: "PC client OEM SSD contract", freq: "quarterly" },
+    { id: "ssd_street", name: "SSD street price", freq: "weekly" },
   ];
-  const ps = { key: "d1", dir: -1, limit: 50 };
-  function drawParts() {
-    const q = $("#q").value.trim().toUpperCase();
-    let rows = D.products.filter((p) => (!q || p.mpn.toUpperCase().includes(q)) && (!fv.value || p.vendor === fv.value) && (!fc.value || p.category === fc.value));
-    rows.sort((a, b) => { const x = a[ps.key], y = b[ps.key]; if (x == null) return 1; if (y == null) return -1; return (x > y ? 1 : x < y ? -1 : 0) * ps.dir; });
-    const shown = rows.slice(0, ps.limit);
-    $("#t-parts").innerHTML = `<thead><tr>${cols.map(([k, l, n]) => `<th class="${n ? "n " : ""}${n === null ? "" : "sortable"}" data-k="${n === null ? "" : k}" ${ps.key === k ? `aria-sort="${ps.dir > 0 ? "ascending" : "descending"}"` : ""}>${l}</th>`).join("")}</tr></thead><tbody>` +
-      shown.map((p) => `<tr><td class="mpn">${esc(p.mpn)}</td><td><span class="sw" style="--c:var(${colorOf["v:" + p.vendor]})"></span>${esc(p.vendor)}</td><td class="dim">${esc(p.category)}</td><td class="n">${money(p.dk)}</td><td class="n">${money(p.mo)}</td><td class="n">${chg(p.d1)}</td><td class="n">${chg(p.w1)}</td><td class="n">${chg(p.m1)}</td><td class="n">${p.stock == null ? "–" : p.stock === 0 ? '<span class="pill oos">Out</span>' : p.stock.toLocaleString()}</td><td class="n">${p.lead == null ? "–" : p.lead.toFixed(0)}</td><td>${spark(p.spark, "--s-basket")}</td></tr>`).join("") + "</tbody>";
-    $("#parts-sub").textContent = `${rows.length} of ${D.products.length} SKUs${rows.length > shown.length ? `, showing ${shown.length}` : ""}. Click a column to sort.`;
-    const more = $("#more"); more.hidden = rows.length <= shown.length; more.textContent = `Show ${Math.min(100, rows.length - shown.length)} more`;
+  function boardRows() {
+    const out = [];
+    TABLES.forEach((t) => {
+      const snaps = S.spot.filter((s) => s.table === t.id).sort((a, b) => a.updated < b.updated ? -1 : 1);
+      if (!snaps.length) return;
+      const L = snaps[snaps.length - 1], lt = T(L.date);
+      L.rows.forEach((r) => {
+        const hist = snaps.map((s) => { const q = s.rows.find((x) => x.item === r.item); return q ? +q.avg : null; }).filter((v) => v != null);
+        const prior = (days) => { const s = [...snaps].reverse().find((s) => T(s.date) <= lt - days * DAY); const q = s && s.rows.find((x) => x.item === r.item); return q ? r.avg / q.avg - 1 : null; };
+        out.push({ table: t.id, updated: L.updated, item: r.item, avg: r.avg, high: r.high, low: r.low, chg: r.chg, w1: prior(7), m1: prior(28), hist });
+      });
+    });
+    return out;
   }
-  $("#t-parts").addEventListener("click", (e) => { const th = e.target.closest("th[data-k]"); if (!th || !th.dataset.k) return; const k = th.dataset.k; ps.dir = ps.key === k ? -ps.dir : (["mpn", "vendor", "category"].includes(k) ? 1 : -1); ps.key = k; drawParts(); });
-  ["input", "change"].forEach((ev) => { $("#q").addEventListener(ev, () => { ps.limit = 50; drawParts(); }); });
-  fv.addEventListener("change", () => { ps.limit = 50; drawParts(); }); fc.addEventListener("change", () => { ps.limit = 50; drawParts(); });
-  $("#more").addEventListener("click", () => { ps.limit += 100; drawParts(); });
+  function spark(vals) {
+    if (!vals || vals.length < 2) return `<span class="dim" style="font-size:12px">builds daily</span>`;
+    const w = 84, h = 22, lo = Math.min(...vals), hi = Math.max(...vals), r = hi - lo || 1;
+    const pts = vals.map((v, i) => [(i / (vals.length - 1)) * (w - 4) + 2, h - 3 - ((v - lo) / r) * (h - 6)]);
+    const e = pts[pts.length - 1];
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join("")}" fill="none" stroke="var(--s1)" stroke-width="1.5"/><circle cx="${e[0]}" cy="${e[1]}" r="2.2" fill="var(--s1)"/></svg>`;
+  }
 
-  syncSeg(); drawToggles(); drawIndex(); drawSupply(); drawParts();
-  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { drawIndex(); drawSupply(); }, 120); });
+  // ---------- controls ----------
+  const sync = () => {
+    document.querySelectorAll("[data-scale]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.scale === ui.scale));
+    document.querySelectorAll("[data-range]").forEach((b) => b.setAttribute("aria-pressed", +b.dataset.range === ui.range));
+    try { localStorage.setItem("mpt2-ui", JSON.stringify(ui)); } catch (e) {}
+  };
+  document.querySelectorAll("[data-scale]").forEach((b) => b.addEventListener("click", () => { ui.scale = b.dataset.scale; sync(); render(); }));
+  document.querySelectorAll("[data-range]").forEach((b) => b.addEventListener("click", () => { ui.range = +b.dataset.range; sync(); render(); }));
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 120); });
+  sync(); render();
+
 })();
 </script>
