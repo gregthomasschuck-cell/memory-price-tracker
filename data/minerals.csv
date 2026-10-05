@@ -20,6 +20,7 @@ date,series,value,unit,note,source_url
 2026-07-17,apt_CN,610000,CNY/t,domestic APT,https://www.ctia.com.cn/news/131910.html
 2026-08-26,apt_CN,600000,CNY/t,Guangdong major long-order,https://m.mysteel.com/hot/1591273.html
 2026-09-20,apt_CN,580000,CNY/t,Zhangyuan late-Sep long-order,https://m.mysteel.com/hot/1591273.html
+2026-09-28,apt_CN,575000,CNY/t,中钨在线 market quote,https://www.sohu.com/a/1082077495_120988576
 2025-02-01,dy_oxide_CN,1718.95,CNY/kg,Feb 2025 monthly avg (CTIA),https://finance.sina.com.cn/roll/2025-02-28/doc-inemzcmm7089575.shtml
 2025-03-01,dy_oxide_CN,1701.9,CNY/kg,Mar 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/cn/2025-04-01/doc-inerrtfs3030863.shtml
 2025-04-01,dy_oxide_CN,1659.55,CNY/kg,Apr 2025 monthly avg,https://finance.sina.com.cn/stock/relnews/hk/2025-04-30/doc-ineuxfic4408666.shtml
@@ -110,3 +111,4 @@ date,series,value,unit,note,source_url
 2025-06-01,wf6_CN,523,CNY/kg,"5N WF6, June 2025 (month only)",https://finance.sina.com.cn/roll/2026-06-11/doc-iniaztwp3984115.shtml
 2026-04-01,wf6_CN,1714.81,CNY/kg,Apr 2026 monthly avg (Oilchem/Mysteel),https://m.mysteel.com/oilchem/a/26042816/9E9DB9F5FBF1523D_abc.html
 2026-06-09,wf6_CN,1740,CNY/kg,5N,https://finance.sina.com.cn/roll/2026-06-11/doc-iniaztwp3984115.shtml
+2026-08-03,wf6_CN,1750-1840,CNY/kg,"5N ex-works reference",https://news.qq.com/rain/a/20260806A08PGP00
