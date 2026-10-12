@@ -112,3 +112,7 @@ date,series,value,unit,note,source_url
 2026-04-01,wf6_CN,1714.81,CNY/kg,Apr 2026 monthly avg (Oilchem/Mysteel),https://m.mysteel.com/oilchem/a/26042816/9E9DB9F5FBF1523D_abc.html
 2026-06-09,wf6_CN,1740,CNY/kg,5N,https://finance.sina.com.cn/roll/2026-06-11/doc-iniaztwp3984115.shtml
 2026-08-03,wf6_CN,1750-1840,CNY/kg,"5N ex-works reference",https://news.qq.com/rain/a/20260806A08PGP00
+2026-10-10,prnd_oxide_CN,740000-742000,CNY/t,Mysteel,https://m.mysteel.com/hot/1232572.html
+2026-10-10,dy_oxide_CN,1420-1440,CNY/kg,Mysteel,https://m.mysteel.com/hot/1232572.html
+2026-10-10,tb_oxide_CN,6400-6450,CNY/kg,Mysteel,https://m.mysteel.com/hot/1232572.html
+2026-09-29,helium_CN_tube,120.4,CNY/m3,"imported tube Sept monthly avg, -6.1% m/m",https://m.mysteel.com/hot/1629300.html
