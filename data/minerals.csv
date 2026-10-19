@@ -116,3 +116,8 @@ date,series,value,unit,note,source_url
 2026-10-10,dy_oxide_CN,1420-1440,CNY/kg,Mysteel,https://m.mysteel.com/hot/1232572.html
 2026-10-10,tb_oxide_CN,6400-6450,CNY/kg,Mysteel,https://m.mysteel.com/hot/1232572.html
 2026-09-29,helium_CN_tube,120.4,CNY/m3,"imported tube Sept monthly avg, -6.1% m/m",https://m.mysteel.com/hot/1629300.html
+2026-10-16,gallium_4N_CN,1740,CNY/kg,TradingEconomics,https://zh.tradingeconomics.com/commodity/gallium
+2026-10-16,germanium_ingot_CN,27250,CNY/kg,TradingEconomics,https://tradingeconomics.com/commodity/germanium
+2026-10-16,antimony_ingot_CN,92000,CNY/t,"SMM 1# ingot close; #0 94000; from 105000 high on Oct 9",https://news.metal.com/newscontent/104162415-antimony-prices-drop-across-the-board-smm-antimony-market-spot-weekly-review
+2026-10-13,prnd_oxide_CN,740000,CNY/t,CTIA,https://www.ctia.com.cn/news/134317.html
+2026-10-15,helium_CN_tube,104,CNY/m3,"imported tube HP avg as of Oct 15; wk avg 107.9 (-4.4% w/w)",https://m.mysteel.com/hot/1629300.html
