@@ -267,3 +267,13 @@ captured,table,title,updated,item,high,low,avg,chg
 2026-10-30,ssd_street,SSD Street Price,2026-10-30T11:30+08:00,Samsung 990 Pro 1 TB,259.99,259.84,259.92,3.97
 2026-10-30,ssd_street,SSD Street Price,2026-10-30T11:30+08:00,PNY CS2150 2 TB,370.0,370.0,370.0,0.0
 2026-10-30,ssd_street,SSD Street Price,2026-10-30T11:30+08:00,Silicon Power US75 1 TB,187.79,187.79,187.79,0.44
+2026-11-01,panel,Large-size panel price,2026-10-20T00:00+08:00,"LCD TV 55""W UHD Open-Cell",126.0,116.0,123.0,0.0
+2026-11-01,panel,Large-size panel price,2026-10-20T00:00+08:00,"Monitor 27""W FHD/IPS LED",66.4,58.0,63.6,0.0
+2026-11-01,panel,Large-size panel price,2026-10-20T00:00+08:00,"Notebook 14.0""W HD Flat-LED",27.9,26.2,26.7,0.0
+2026-11-01,smartphone,LCD smartphone panel price,2026-10-29T00:00+08:00,Smartphone 5W HD IPS/Cell,1.7,1.2,1.4,0.0
+2026-11-01,smartphone,LCD smartphone panel price,2026-10-29T00:00+08:00,Smartphone 5.5W FHD IPS/Module,8.5,5.7,6.2,0.0
+2026-11-01,street,Monitor/TV street price,2026-10-30T00:00+08:00,"LCD MNT 18.5""W LED",76.8,76.8,76.8,0.3
+2026-11-01,street,Monitor/TV street price,2026-10-30T00:00+08:00,"LCD MNT 21.5""W LED",141.9,99.7,101.1,-1.1
+2026-11-01,street,Monitor/TV street price,2026-10-30T00:00+08:00,"LCD MNT 34""W_WV LED",337.1,200.0,281.3,-4.2
+2026-11-01,street,Monitor/TV street price,2026-10-30T00:00+08:00,"LCD MNT Curved 34""W",469.0,373.3,419.8,0.7
+2026-11-01,street,Monitor/TV street price,2026-10-30T00:00+08:00,"LCD TV 32""_LED",261.4,157.0,179.6,-0.6
