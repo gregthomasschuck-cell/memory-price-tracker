@@ -135,3 +135,10 @@ date,series,value,unit,note,source_url
 2026-10-23,dy_oxide_CN,1415,CNY/kg,Mysteel,https://m.mysteel.com/hot/1285552.html
 2026-10-23,tb_oxide_CN,6365,CNY/kg,Mysteel,https://m.mysteel.com/hot/1285552.html
 2026-10-26,apt_CN,500000-530000,CNY/t,"中钨在线 market range (Mon); 百川盈孚 480000 on Oct 22 (+4.35% d/d)",https://www.sohu.com/a/1092785013_121157270
+2026-10-30,gallium_4N_CN,1730,CNY/kg,"TradingEconomics, flat d/d",https://tradingeconomics.com/commodity/gallium
+2026-10-30,germanium_ingot_CN,29000,CNY/kg,"TradingEconomics, flat d/d",https://tradingeconomics.com/commodity/germanium
+2026-10-30,antimony_ingot_CN,92000,CNY/t,"Mysteel 1# ingot, flat",https://m.mysteel.com/hot/1540353.html
+2026-10-30,prnd_oxide_CN,711000,CNY/t,"Mysteel 710000-712000 (mid)",https://m.mysteel.com/hot/1232533.html
+2026-10-30,dy_oxide_CN,1440,CNY/kg,"Mysteel 1430-1450 (mid)",https://m.mysteel.com/hot/1232533.html
+2026-10-30,tb_oxide_CN,6335,CNY/kg,"Mysteel 6320-6350 (mid)",https://m.mysteel.com/hot/1232533.html
+2026-10-30,apt_CN,530000,CNY/t,"Mysteel weekly 10.23-10.30, +40000 w/w",https://m.mysteel.com/hot/1629271.html
