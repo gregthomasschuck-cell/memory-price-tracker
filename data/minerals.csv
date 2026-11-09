@@ -142,3 +142,12 @@ date,series,value,unit,note,source_url
 2026-10-30,dy_oxide_CN,1440,CNY/kg,"Mysteel 1430-1450 (mid)",https://m.mysteel.com/hot/1232533.html
 2026-10-30,tb_oxide_CN,6335,CNY/kg,"Mysteel 6320-6350 (mid)",https://m.mysteel.com/hot/1232533.html
 2026-10-30,apt_CN,530000,CNY/t,"Mysteel weekly 10.23-10.30, +40000 w/w",https://m.mysteel.com/hot/1629271.html
+2026-11-06,gallium_4N_CN,1740,CNY/kg,"Mysteel Ga>=99.99%, flat d/d",https://m.mysteel.com/hot/1540389.html
+2026-11-06,germanium_ingot_CN,29000-30000,CNY/kg,"Mysteel 99.999% (mid 29500), flat d/d",https://m.mysteel.com/hot/1540481.html
+2026-11-06,antimony_ingot_CN,90000,CNY/t,"Mysteel 1# ingot, -1000 d/d (88000-92000)",https://m.mysteel.com/hot/1558616.html
+2026-11-06,prnd_oxide_CN,707500,CNY/t,"Mysteel 705000-710000 (mid), -3500 d/d",https://www.mysteel.com/hot/1232538.html
+2026-11-06,dy_oxide_CN,1455,CNY/kg,"Mysteel 1450-1460 (mid), +15 d/d",https://www.mysteel.com/hot/1232538.html
+2026-11-06,tb_oxide_CN,6235,CNY/kg,"Mysteel 6220-6250 (mid), -30 d/d",https://www.mysteel.com/hot/1232538.html
+2026-11-06,apt_CN,550000,CNY/t,"Mysteel APT, +10000 d/d; 百川盈孚 530000-550000 on Nov 5 (+4.85% w/w)",https://thj.mysteel.com/wu/
+2026-11-06,wf6_CN,1780-1840,CNY/kg,"5N ex-works reference, mainstream 1810, stable (隆众)",https://www.mysteel.com/oilchem/a/26110616/621063745D67863F.html
+2026-11-05,helium_CN_tube,93.8,CNY/m3,"imported tube HP avg as of Nov 5 (隆众); talks mostly 88-95",https://m.mysteel.com/hot/1629445.html

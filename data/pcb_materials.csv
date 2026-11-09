@@ -87,3 +87,9 @@ date,series,value,unit,note,source_url
 2026-10-22,lowcte_glass,"Glass cloth & CCL +10-15% expected Nov",event,"supply-chain estimate, no company notice yet (工商時報)",https://www.ctee.com.tw/news/20261022700072-439901
 2026-10-26,lowcte_glass,"Grace Fabric 9M-2026 ASP 14.63 RMB/m (+194% y/y)",event,"vs 4.97 RMB/m a year earlier (新浪财经)",https://finance.sina.com.cn/jjxw/2026-10-26/doc-iniwnzcz9288333.shtml
 2026-10-28,ccl_hike,"Shengyi M6 & below laminates +15%, PP +25% from Nov",event,"planned November hike (金融界)",https://stock.jrj.com.cn/2026/10/28143458906818.shtml
+2026-11-03,e_yarn_G75,28750-28850,RMB/t,"Nov quote +3000 RMB/t m/m (卓创资讯)",https://m.21jingji.com/article/20261103/herald/8154d57778dcd58d13dc27653eeab898.html
+2026-11-03,e_cloth_7628,14.6-14.65,RMB/m,"Nov quote +1.5 RMB/m m/m (卓创资讯)",https://m.21jingji.com/article/20261103/herald/8154d57778dcd58d13dc27653eeab898.html
+2026-11-03,lowcte_glass,"Nov thin cloth: 2116 20.2 RMB/m (+2.5), 1080 20.75-20.8 (+2.5-2.6)",event,"卓创资讯 Nov quotes; E225 yarn 71500 RMB/t, D450 yarn 147500 RMB/t",https://m.21jingji.com/article/20261103/herald/8154d57778dcd58d13dc27653eeab898.html
+2026-10-14,ccl_hike,"Panasonic general multilayer CCL +200% from 2027-01-01",event,"media-reported customer notice (工商時報): R-1705/R-1766/R-1566/R-1755; not on Panasonic site",https://www.ctee.com.tw/news/20261014700205-439901
+2026-11-05,cu_foil,"Co-Tech processing fee ~+10% (Morgan Stanley)",event,"broker note on Q4; peers may announce fee hikes as early as Dec, no company notice",https://www.chinatimes.com/realtimenews/20261105002554-260410
+2026-11-05,lowcte_glass,"Nittobo T-glass capacity target 3.6x FY2025 by FY2029 (~JPY 20bn capex)",event,"H1 results; earlier plan 3x by FY2028; no new price hike announced",https://finance.technews.tw/2026/11/06/fiberglass-cloth-boom-nitto-boseki-raises-forecast-boosts-t-glass-expansion
