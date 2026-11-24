@@ -461,3 +461,10 @@ captured,table,title,updated,item,high,low,avg,chg
 2026-11-23,memCard_spot,Memory Card Spot Price,2026-11-16T14:40+08:00,MicroSD 32GB,4.4,3.0,3.4,-2.86
 2026-11-23,memCard_spot,Memory Card Spot Price,2026-11-16T14:40+08:00,MicroSD 64GB,6.2,4.5,5.05,-2.89
 2026-11-23,memCard_spot,Memory Card Spot Price,2026-11-16T14:40+08:00,MicroSD 128GB,11.0,8.9,10.0,-2.44
+2026-11-24,dram_spot,DRAM Spot Price,2026-11-24T18:10+08:00,DDR5 16Gb (2Gx8) 4800/5600,72.0,45.5,60.833,0.22
+2026-11-24,dram_spot,DRAM Spot Price,2026-11-24T18:10+08:00,DDR5 16Gb (2Gx8) eTT,32.0,30.3,31.0,0.0
+2026-11-24,dram_spot,DRAM Spot Price,2026-11-24T18:10+08:00,DDR4 16Gb (2Gx8) 3200,109.0,43.0,78.25,-0.32
+2026-11-24,dram_spot,DRAM Spot Price,2026-11-24T18:10+08:00,DDR4 16Gb (2Gx8) eTT,12.9,10.8,12.475,-0.2
+2026-11-24,dram_spot,DRAM Spot Price,2026-11-24T18:10+08:00,DDR4 8Gb (1Gx8) 3200,78.0,24.4,43.321,-0.49
+2026-11-24,dram_spot,DRAM Spot Price,2026-11-24T18:10+08:00,DDR4 8Gb (1Gx8) eTT,5.7,5.1,5.39,-0.74
+2026-11-24,dram_spot,DRAM Spot Price,2026-11-24T18:10+08:00,DDR3 4Gb 512Mx8 1600/1866,21.0,9.45,13.771,0.0
